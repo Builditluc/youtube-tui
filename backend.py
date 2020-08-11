@@ -9,7 +9,6 @@ def get_main_page():
     html = request('https://www.youtube.com/').content
     soup = BeautifulSoup(html, 'html.parser')
     print(soup.prettify())
-    titles = soup.find_all("yt-formatted-string")
-    print(titles)
+    print(soup.find_all("a", id="video-title-link"))
 
 get_main_page()
