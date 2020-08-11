@@ -22,14 +22,14 @@ class Tab:
         self.height = 0
 
         # The items the user can scroll through
-        self.scrollabe_items: [[object, bool]] = []
+        self.scrollable_items: [[object, bool]] = []
 
         # Variables for the Scrolling
         self.current_line = 0
         self.max_lines = self.height
 
         self.top_line = 0
-        self.bottom_line = len(self.scrollabe_items)
+        self.bottom_line = len(self.scrollable_items)
 
         # Variables for the scroll direction
         self.scroll_up = -1
@@ -208,9 +208,9 @@ class Window:
         :param bg_color: Color of the Background
         :param name: The name of the color
         """
-        pair_number = len(self._colors)
+        pair_number = len(self._colors) + 1
         curses.init_pair(pair_number, text_color, bg_color)
-        self._colors.append([name, int])
+        self._colors.append([name, pair_number])
 
     def get_color(self, name):
         """
