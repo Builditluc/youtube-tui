@@ -17,7 +17,7 @@ def get_main_page():
     # get titles
     titles = driver.find_elements_by_id("video-title")
     for title in titles:
-        titles_array.append(title.text)
+            titles_array.append(title.text)
     #print(titles_array)
 
     # get creators
@@ -38,13 +38,23 @@ def get_main_page():
         
     json_to_return = json.dumps(json_string)
     
-    #driver.close()
-
+    #print(json_to_return)
+    #print(len(json_to_return))
+    
+    for i in range(len(json.loads(json_to_return))):
+        
+        if json.loads(json_to_return)[i ]['title'] == "":
+            print(i)
+            
+            
+            print( json.loads(json_to_return)[i])
+    
     print(json_to_return)
+    
     return json_to_return
 
 get_main_page()
-
+driver.close()
 
 def search(text):
     pass
