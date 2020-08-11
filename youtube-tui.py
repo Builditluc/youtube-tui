@@ -6,6 +6,11 @@ import curses.ascii
 import string
 from base import Application, Window, Tab
 
+class Videos(Tab):
+    def __init__(self, parent):
+        super(__class__, self).__init__(parent)
+
+        self.has_border = True
 
 class Search_bar(Tab):
     def __init__(self, parent):
@@ -27,7 +32,7 @@ class Search_bar(Tab):
             self.search_string += chr(key_pressed)
 
         # When the user hast pressed the delete key,
-        # remove the last character of the search sring
+        # remove the last character of the search string
         if key_pressed in [curses.ascii.BS, curses.KEY_BACKSPACE]:
             self.search_string = self.search_string[:len(self.search_string)-1]
 
@@ -44,12 +49,28 @@ class Youtube_tui(Window):
         self.title_x = self.title_y = 0
 
         # Adding the Search Bar to the Window and select it
-        self.search_tab = Search_bar(self)
+        search_trans_x = 0
+        search_trans_y = 1
 
-        self.search_tab.width = self.width - 5
+        self.search_tab = Search_bar(self)
+        self.search_tab.translate(search_trans_y, search_trans_x)
+
+        self.search_tab.width = self.width - (search_trans_x + 1)
         self.search_tab.height = 2
 
         self.add_tab(self.search_tab, True)
+
+        # Adding the Videos Tab to the Window
+        videos_trans_x = 0
+        videos_trans_y = search_trans_y + (self.search_tab.height + 1)
+
+        self.videos_tab = Videos(self)
+        self.videos_tab.translate(videos_trans_y, videos_trans_x)
+
+        self.videos_tab.width = self.width - (videos_trans_x + 1)
+        self.videos_tab.height = curses.LINES - (videos_trans_y + 2)
+
+        self.add_tab(self.videos_tab, False)
 
         self.init_colors()
 
@@ -69,7 +90,6 @@ class Youtube_tui(Window):
     def late_update(self):
         # Draw the title onto the screen
         self.draw_text(self.title_y, self.title_x, self.title, self.get_color("title"))
-
 
 if __name__ == "__main__":
     app: Application = Application()

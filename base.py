@@ -102,8 +102,8 @@ class Tab:
         :param y_coord: The y coord of the new point
         :param x_coord: The x coord of the new point
         """
-        self.translate_x = lambda x: x + (x_coord - 1)
-        self.translate_y = lambda y: y + (y_coord - 1)
+        self.translate_x = lambda x: x + x_coord
+        self.translate_y = lambda y: y + y_coord
 
     def draw_text(self, y_coord, x_coord, text, color_code):
         self.parent.draw_text(self.translate_y(y_coord), self.translate_x(x_coord), text, color_code)
