@@ -35,6 +35,10 @@ class Tab:
         self.scroll_up = -1
         self.scroll_down = 1
 
+        # Variables for the translation of coords
+        self.translate_x = lambda x: x
+        self.translate_y = lambda y: y
+
     def check_keys(self):
         """
         This function will be called every frame but only
@@ -89,8 +93,17 @@ class Tab:
             self.current_line = next_line
             return
 
+    def translate(self, y_coord, x_coord):
+        """
+        Translates the coordinates to another point
+        :param y_coord: The y coord of the new point
+        :param x_coord: The x coord of the new point
+        """
+        self.translate_x = lambda x: x + (x_coord - 1)
+        self.translate_y = lambda y: y + (y_coord - 1)
+
     def draw_text(self, y_coord, x_coord, text, color_code):
-        self.parent.draw_text(y_coord, x_coord, text, color_code)
+        self.parent.draw_text(self.translate_y(y_coord), self.translate_x(x_coord), text, color_code)
 
     def get_color(self, name):
         return self.parent.get_color(name)

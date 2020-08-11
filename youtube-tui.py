@@ -31,7 +31,10 @@ class Youtube_tui(Window):
         self.title_x = self.title_y = 0
 
         # Adding the Search Bar to the Window and select it
-        self.add_tab(Search_bar(self), True)
+        self.search_tab = Search_bar(self)
+        self.search_tab.translate(5, 5)
+
+        self.add_tab(self.search_tab, True)
 
         self.init_colors()
 
