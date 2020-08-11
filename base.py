@@ -149,17 +149,35 @@ class Window:
         """
         self.height, self.width = self.stdscr.getmaxyx()
         self.key_pressed = self.stdscr.getch()
-        self.check_keys()
+        self.check_keys(); self._tab_check_keys()
 
-        self.update()
+        self.update(); self._tab_update()
 
         # Clear the Screen
         self.stdscr.erase()
 
-        self.late_update()
+        self.late_update(); self._tab_late_update()
 
         # Refreshing the Screen at the end of the Frame
         self._update_screen()
+
+    def _tab_update(self):
+        # Iterate through every tab and call the update function
+        for tab in self.tabs:
+            tab[1].update()
+    
+    def _tab_late_update(self):
+        # Iterate through every tab and call the late update function 
+        for tab in self.tabs:
+            tab[1].late_update()
+
+    def _tab_check_keys(self):
+        # Iterate through every tab and if the tab
+        # is the current call its check keys function
+        for tab in self.tabs:
+            if tab[0] == self.current_tab:
+                tab[1].check_keys()
+                return
 
     def _update_screen(self):
         """
