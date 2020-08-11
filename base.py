@@ -7,7 +7,32 @@ import time
 
 
 class Tab:
-    pass
+    """
+    Simple class for a tab
+    """
+    def __init__(self, parent):
+        super(__class__, self).__init__()
+
+        # Saves the Window of the tab in a variable
+        self.parent = parent
+
+    def check_keys(self):
+        """
+        This function will be called every frame but only
+        when the tab is focussed
+        """
+
+    def update(self):
+        """
+        This function will be called every frame but only
+        when the tab is focussed. Its called before the screen is cleared
+        """
+
+    def late_update(self):
+        """
+        This function will be called every frame but only
+        when the tab is focussed. Its called after the screen is cleared
+        """
 
 
 class Window:
