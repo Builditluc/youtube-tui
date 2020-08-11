@@ -5,6 +5,23 @@ import curses
 from base import Application, Window, Tab
 
 
+class Search_bar(Tab):
+    def __init__(self, parent):
+        super(__class__, self).__init__(parent)
+
+        self.scrollable_items.append(["##########"])
+        self.scrollable_items.append(["##########"])
+        self.scrollable_items.append(["##########"])
+        self.scrollable_items.append(["##########"])
+
+    def late_update(self):
+        # Draw the scrollable items
+        _x = _y = 0
+        for item in self.scrollable_items:
+            self.draw_text(_y, _x, item[0], self.get_color("text"))
+            _y += 1
+
+
 class Youtube_tui(Window):
     def __init__(self, stdscr, application):
         super(__class__, self).__init__(stdscr, application)
@@ -12,6 +29,9 @@ class Youtube_tui(Window):
         # Initializing the variable for the title
         self.title = "Youtube-TUI"
         self.title_x = self.title_y = 0
+
+        # Adding the Search Bar to the Window and select it
+        self.add_tab(Search_bar(self), True)
 
         self.init_colors()
 
