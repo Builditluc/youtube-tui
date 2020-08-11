@@ -10,26 +10,26 @@ class Tab:
     """
     Simple class for a tab
     """
+
     def __init__(self, parent):
         super(__class__, self).__init__()
 
         # Saves the Window of the tab in a variable
         self.parent = parent
-        
+
         # The items the user can scroll through
         self.scrollabe_items: [[object, bool]] = []
-        
+
         # Variables for the Scrolling
-        self.current_line = 0  
+        self.current_line = 0
         self.max_lines = int
-        
+
         self.top_line = 0
-        self.bottom_line = int 
-        
+        self.bottom_line = int
+
         # Variables for the scroll direction
         self.scroll_up = -1
         self.scroll_down = 1
-
 
     def check_keys(self):
         """
@@ -50,40 +50,40 @@ class Tab:
         """
 
     def scroll(self, direction):
-      """
-      Scrolling the window when pressing up/down arrow keys
-      :param direction: The direction of the Scrolling (Up or Down)
-      """
-      # next cursor position after Scrolling
-      next_line = self.current_line + direction
-      
-      # Up direction scroll overflow
-      # current cursor position is 0, but top position is greater than 0
-      if (direction == self.scroll_up) and (self.top_line > 0 and self.current_line == 0):
-        self.top_line += direction
-        return
-      
-      # Down direction overflow
-      # next cursor position touches the max lines,
-      # but absolute position of max lines could not touch the bottom
-      if (direction == self.scroll_down) and (next_line == self.max_lines) \
-          and (self.top_line + self.max_lines < self.bottom_line):
-        self.top_line += direction
-        return
-      
-      # Scroll up 
-      # current cursor position or top position is greater than 0 
-      if (direction == self.scroll_up) and (self.top_line > 0 or self.current_line):
-        self.current_line = next_line
-        return
-      
-      # Scroll down
-      # next cursor position is above max lines,
-      # but absolute position of next cursor could not touch the bottom
-      if (direction == self.scroll_down) and (next_line < self.max_lines) \
-          and (self.top_line + next_line < self.bottom_line):
-        self.current_line = next_line
-        return
+        """
+        Scrolling the window when pressing up/down arrow keys
+        :param direction: The direction of the Scrolling (Up or Down)
+        """
+        # next cursor position after Scrolling
+        next_line = self.current_line + direction
+
+        # Up direction scroll overflow
+        # current cursor position is 0, but top position is greater than 0
+        if (direction == self.scroll_up) and (self.top_line > 0 and self.current_line == 0):
+            self.top_line += direction
+            return
+
+        # Down direction overflow
+        # next cursor position touches the max lines,
+        # but absolute position of max lines could not touch the bottom
+        if (direction == self.scroll_down) and (next_line == self.max_lines) \
+                and (self.top_line + self.max_lines < self.bottom_line):
+            self.top_line += direction
+            return
+
+        # Scroll up
+        # current cursor position or top position is greater than 0
+        if (direction == self.scroll_up) and (self.top_line > 0 or self.current_line):
+            self.current_line = next_line
+            return
+
+        # Scroll down
+        # next cursor position is above max lines,
+        # but absolute position of next cursor could not touch the bottom
+        if (direction == self.scroll_down) and (next_line < self.max_lines) \
+                and (self.top_line + next_line < self.bottom_line):
+            self.current_line = next_line
+            return
 
 class Window:
     """
@@ -204,7 +204,7 @@ class Window:
         # return -1
         return -1
 
-    def add_tab(self, tab:Tab, is_current:bool):
+    def add_tab(self, tab: Tab, is_current: bool):
         """
         Adds a tab to the window
         :param tab: The tab that will be added to the window
