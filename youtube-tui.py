@@ -82,6 +82,12 @@ class Youtube_tui(Window):
         self.add_color(curses.COLOR_BLACK, curses.COLOR_WHITE, "highlighted")
         self.add_color(curses.COLOR_RED, curses.COLOR_BLACK, "title")
 
+    def check_keys(self):
+        # If the user pressed the Tab key,
+        # switch the current tab
+        if self.key_pressed == curses.ascii.TAB:
+            self.select_next_tab()
+
     def update(self):
         # Calculating the x coordinate of the title,
         # based on the width of the terminal and the length of the title itself
