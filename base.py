@@ -17,15 +17,19 @@ class Tab:
         # Saves the Window of the tab in a variable
         self.parent = parent
 
+        # Variables for the size of the tab
+        self.width = 0
+        self.height = 0
+
         # The items the user can scroll through
         self.scrollabe_items: [[object, bool]] = []
 
         # Variables for the Scrolling
         self.current_line = 0
-        self.max_lines = int
+        self.max_lines = self.height
 
         self.top_line = 0
-        self.bottom_line = int
+        self.bottom_line = len(self.scrollabe_items)
 
         # Variables for the scroll direction
         self.scroll_up = -1
@@ -67,7 +71,7 @@ class Tab:
         # next cursor position touches the max lines,
         # but absolute position of max lines could not touch the bottom
         if (direction == self.scroll_down) and (next_line == self.max_lines) \
-                and (self.top_line + self.max_lines < self.bottom_line):
+                and (not self.top_line + self.max_lines >= self.bottom_line):
             self.top_line += direction
             return
 
@@ -81,9 +85,10 @@ class Tab:
         # next cursor position is above max lines,
         # but absolute position of next cursor could not touch the bottom
         if (direction == self.scroll_down) and (next_line < self.max_lines) \
-                and (self.top_line + next_line < self.bottom_line):
+                and (not self.top_line + next_line >= self.bottom_line):
             self.current_line = next_line
             return
+
 
 class Window:
     """
