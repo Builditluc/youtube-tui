@@ -2,6 +2,8 @@
 The main file for the youtube-tui
 """
 import curses
+import curses.ascii
+import string
 from base import Application, Window, Tab
 
 
@@ -16,7 +18,18 @@ class Search_bar(Tab):
         self.has_border = True
 
     def check_keys(self, key_pressed):
-        pass
+        if key_pressed < 0:
+            return
+
+        # When the user has pressed a ascii key,
+        # update the search string
+        if chr(key_pressed) in string.printable:
+            self.search_string += chr(key_pressed)
+
+        # When the user hast pressed the delete key,
+        # remove the last character of the search sring
+        if key_pressed in [curses.ascii.BS, curses.KEY_BACKSPACE]:
+            self.search_string = self.search_string[:len(self.search_string)-1]
 
     def late_update(self):
         # Draw the search string
@@ -32,7 +45,6 @@ class Youtube_tui(Window):
 
         # Adding the Search Bar to the Window and select it
         self.search_tab = Search_bar(self)
-        self.search_tab.translate(0, 0)
 
         self.search_tab.width = self.width - 5
         self.search_tab.height = 2

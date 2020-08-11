@@ -169,7 +169,7 @@ class Window:
         """
         self.height, self.width = self.stdscr.getmaxyx()
         self.key_pressed = self.stdscr.getch()
-        self.check_keys(); self._tab_check_keys(self.key_pressed)
+        self.check_keys(); self._tab_check_keys()
 
         self.update(); self._tab_update()
 
@@ -197,7 +197,7 @@ class Window:
         # is the current call its check keys function
         for tab in self.tabs:
             if tab[0] == self.current_tab:
-                tab[1].check_keys()
+                tab[1].check_keys(self.key_pressed)
                 return
 
     def _tab_draw_border(self):
