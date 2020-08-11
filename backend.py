@@ -1,5 +1,4 @@
 import requests
-#from bs4 import BeautifulSoup
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 driver = webdriver.Firefox()
@@ -11,8 +10,11 @@ def request(url):
 
 def get_main_page():
     html = request('https://www.youtube.com/')
-    titles = driver.get_element_by_name("a")
-    titles = soup.find_all('a', id='video-title-link')['title']
+    titles = driver.find_elements_by_id("video-title")
     print(titles)
 
 get_main_page()
+
+
+def search(text):
+    pass
