@@ -1,5 +1,5 @@
 """"
-Simple classes for the PyHex Window and Application
+Simple classes for the youtube-tui Window and Application
 """
 
 import curses
