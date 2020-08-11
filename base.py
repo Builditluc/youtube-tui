@@ -39,7 +39,10 @@ class Tab:
         self.translate_x = lambda x: x
         self.translate_y = lambda y: y
 
-    def check_keys(self):
+        # Variables for the border
+        self.has_border = False
+
+    def check_keys(self, key_pressed):
         """
         This function will be called every frame but only
         when the tab is focussed
@@ -121,8 +124,7 @@ class Window:
         self.application: Application = application
 
         # Creating the variables of the size of the Window
-        self.width = int
-        self.height = int
+        self.height, self.width = self.stdscr.getmaxyx()
 
         # Creating the variable for the Keyinput
         self.key_pressed = int
@@ -167,13 +169,14 @@ class Window:
         """
         self.height, self.width = self.stdscr.getmaxyx()
         self.key_pressed = self.stdscr.getch()
-        self.check_keys(); self._tab_check_keys()
+        self.check_keys(); self._tab_check_keys(self.key_pressed)
 
         self.update(); self._tab_update()
 
         # Clear the Screen
         self.stdscr.erase()
 
+        self._tab_draw_border()
         self.late_update(); self._tab_late_update()
 
         # Refreshing the Screen at the end of the Frame
@@ -196,6 +199,32 @@ class Window:
             if tab[0] == self.current_tab:
                 tab[1].check_keys()
                 return
+
+    def _tab_draw_border(self):
+        # Iterate through every tab and draw
+        # a border if needed
+        for tab in self.tabs:
+            if tab[1].has_border:
+                # Draw the horizontal lines
+                self.draw_text(tab[1].translate_y(0), tab[1].translate_x(0),
+                               "\u2501"*tab[1].width, self.get_color("text"))
+                self.draw_text(tab[1].translate_y(tab[1].height), tab[1].translate_x(0),
+                               "\u2501"*tab[1].width, self.get_color("text"))
+
+                # Draw the vertical lines
+                for i in range(1, tab[1].height):
+                    self.draw_text(tab[1].translate_y(i), tab[1].translate_x(0),
+                                   "\u2503" + " "*(tab[1].width - 1) + "\u2503", self.get_color("text"))
+
+                # Draw the edges
+                self.draw_text(tab[1].translate_y(0), tab[1].translate_x(0), "\u250F",
+                               self.get_color("text"))
+                self.draw_text(tab[1].translate_y(0), tab[1].translate_x(tab[1].width), "\u2513",
+                               self.get_color("text"))
+                self.draw_text(tab[1].translate_y(tab[1].height), tab[1].translate_x(0), "\u2517",
+                               self.get_color("text"))
+                self.draw_text(tab[1].translate_y(tab[1].height), tab[1].translate_x(tab[1].width), "\u251B",
+                               self.get_color("text"))
 
     def _update_screen(self):
         """

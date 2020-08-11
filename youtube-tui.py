@@ -9,18 +9,18 @@ class Search_bar(Tab):
     def __init__(self, parent):
         super(__class__, self).__init__(parent)
 
-        self.scrollable_items.append(["##########"])
-        self.scrollable_items.append(["##########"])
-        self.scrollable_items.append(["##########"])
-        self.scrollable_items.append(["##########"])
+        # The search string
+        self.search_string = ""
+        self.search_string_x = self.search_string_y = 1
+
+        self.has_border = True
+
+    def check_keys(self, key_pressed):
+        pass
 
     def late_update(self):
-        # Draw the scrollable items
-        _x = _y = 0
-        for item in self.scrollable_items:
-            self.draw_text(_y, _x, item[0], self.get_color("text"))
-            _y += 1
-
+        # Draw the search string
+        self.draw_text(self.search_string_y, self.search_string_x, self.search_string, self.get_color("text"))
 
 class Youtube_tui(Window):
     def __init__(self, stdscr, application):
@@ -32,7 +32,10 @@ class Youtube_tui(Window):
 
         # Adding the Search Bar to the Window and select it
         self.search_tab = Search_bar(self)
-        self.search_tab.translate(5, 5)
+        self.search_tab.translate(0, 0)
+
+        self.search_tab.width = self.width - 5
+        self.search_tab.height = 2
 
         self.add_tab(self.search_tab, True)
 
