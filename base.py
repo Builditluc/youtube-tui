@@ -89,6 +89,11 @@ class Tab:
             self.current_line = next_line
             return
 
+    def draw_text(self, y_coord, x_coord, text, color_code):
+        self.parent.draw_text(y_coord, x_coord, text, color_code)
+
+    def get_color(self, name):
+        return self.parent.get_color(name)
 
 class Window:
     """
