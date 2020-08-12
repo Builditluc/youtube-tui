@@ -22,20 +22,27 @@ class Tab:
         self.height = 0
 
         # The items the user can scroll through
-        self.scrollabe_items: [[object, bool]] = []
+        self.scrollable_items: [[object, bool]] = []
 
         # Variables for the Scrolling
         self.current_line = 0
         self.max_lines = self.height
 
         self.top_line = 0
-        self.bottom_line = len(self.scrollabe_items)
+        self.bottom_line = len(self.scrollable_items)
 
         # Variables for the scroll direction
         self.scroll_up = -1
         self.scroll_down = 1
 
-    def check_keys(self):
+        # Variables for the translation of coords
+        self.translate_x = lambda x: x
+        self.translate_y = lambda y: y
+
+        # Variables for the border
+        self.has_border = False
+
+    def check_keys(self, key_pressed):
         """
         This function will be called every frame but only
         when the tab is focussed
@@ -89,6 +96,20 @@ class Tab:
             self.current_line = next_line
             return
 
+    def translate(self, y_coord, x_coord):
+        """
+        Translates the coordinates to another point
+        :param y_coord: The y coord of the new point
+        :param x_coord: The x coord of the new point
+        """
+        self.translate_x = lambda x: x + x_coord
+        self.translate_y = lambda y: y + y_coord
+
+    def draw_text(self, y_coord, x_coord, text, color_code):
+        self.parent.draw_text(self.translate_y(y_coord), self.translate_x(x_coord), text, color_code)
+
+    def get_color(self, name):
+        return self.parent.get_color(name)
 
 class Window:
     """
@@ -103,8 +124,7 @@ class Window:
         self.application: Application = application
 
         # Creating the variables of the size of the Window
-        self.width = int
-        self.height = int
+        self.height, self.width = self.stdscr.getmaxyx()
 
         # Creating the variable for the Keyinput
         self.key_pressed = int
@@ -156,6 +176,7 @@ class Window:
         # Clear the Screen
         self.stdscr.erase()
 
+        self._tab_draw_border()
         self.late_update(); self._tab_late_update()
 
         # Refreshing the Screen at the end of the Frame
@@ -176,8 +197,34 @@ class Window:
         # is the current call its check keys function
         for tab in self.tabs:
             if tab[0] == self.current_tab:
-                tab[1].check_keys()
+                tab[1].check_keys(self.key_pressed)
                 return
+
+    def _tab_draw_border(self):
+        # Iterate through every tab and draw
+        # a border if needed
+        for tab in self.tabs:
+            if tab[1].has_border:
+                # Draw the horizontal lines
+                self.draw_text(tab[1].translate_y(0), tab[1].translate_x(0),
+                               "\u2501"*tab[1].width, self.get_color("text"))
+                self.draw_text(tab[1].translate_y(tab[1].height), tab[1].translate_x(0),
+                               "\u2501"*tab[1].width, self.get_color("text"))
+
+                # Draw the vertical lines
+                for i in range(1, tab[1].height):
+                    self.draw_text(tab[1].translate_y(i), tab[1].translate_x(0),
+                                   "\u2503" + " "*(tab[1].width - 1) + "\u2503", self.get_color("text"))
+
+                # Draw the edges
+                self.draw_text(tab[1].translate_y(0), tab[1].translate_x(0), "\u250F",
+                               self.get_color("text"))
+                self.draw_text(tab[1].translate_y(0), tab[1].translate_x(tab[1].width), "\u2513",
+                               self.get_color("text"))
+                self.draw_text(tab[1].translate_y(tab[1].height), tab[1].translate_x(0), "\u2517",
+                               self.get_color("text"))
+                self.draw_text(tab[1].translate_y(tab[1].height), tab[1].translate_x(tab[1].width), "\u251B",
+                               self.get_color("text"))
 
     def _update_screen(self):
         """
@@ -208,9 +255,9 @@ class Window:
         :param bg_color: Color of the Background
         :param name: The name of the color
         """
-        pair_number = len(self._colors)
+        pair_number = len(self._colors) + 1
         curses.init_pair(pair_number, text_color, bg_color)
-        self._colors.append([name, int])
+        self._colors.append([name, pair_number])
 
     def get_color(self, name):
         """
