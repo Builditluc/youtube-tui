@@ -5,6 +5,7 @@ import curses
 import curses.ascii
 import string
 from base import Application, Window, Tab
+#import backend
 
 class yt_video:
     def __init__(self, title_arg, creator_arg, url_arg):
@@ -16,7 +17,7 @@ class yt_video:
         self.url = url_arg
 
 yt_videos = []
-for i in range(0, 20):
+for i in range(0, 100):
     title = "Yt - Video No. {}".format(i)
     creator = "Yt - Creator No. {}".format(i)
     url = "https://youtube.com/watch?id={}".format(i)
@@ -24,6 +25,10 @@ for i in range(0, 20):
     new = yt_video(title, creator, url)
 
     yt_videos.append(new)
+
+#yt_videos = backend.get_main_page()
+
+#backend.driver.close()
 
 class Videos(Tab):
     def __init__(self, parent):
@@ -76,6 +81,7 @@ class Search_bar(Tab):
         self.search_string_x = self.search_string_y = 1
 
         self.has_border = True
+        self.show_cursor = True
 
     def check_keys(self, key_pressed):
         if key_pressed < 0:
