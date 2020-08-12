@@ -81,7 +81,7 @@ class Search_bar(Tab):
 
         # When the user has pressed a ascii key,
         # update the search string
-        if chr(key_pressed) in string.printable:
+        if any(chr(key_pressed) in sublist for sublist in [string.ascii_letters, string.digits, string.punctuation]):
             self.search_string += chr(key_pressed)
             return
 

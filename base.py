@@ -310,7 +310,7 @@ class Window:
 
         # If the current tab is the last tab,
         # select the first
-        if current_tab_number == len(self.tabs):
+        if current_tab_number == len(self.tabs)-1:
             self.current_tab = 0
             return
 
