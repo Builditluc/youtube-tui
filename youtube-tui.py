@@ -99,6 +99,12 @@ class Search_bar(Tab):
             self.search_string = self.search_string[:len(self.search_string) - 1]
             return
 
+        # When the user has pressed the return key,
+        # search for the current string in youtube
+        if key_pressed == curses.KEY_ENTER:
+            #yt_videos = backend.search(self.search_string)
+            pass
+
     def update(self):
         # Calculate new cursor positions for the tab
         self.cursor_x = self.search_string_x + len(self.search_string)
