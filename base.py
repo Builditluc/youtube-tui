@@ -45,6 +45,10 @@ class Tab:
         # Variables for the border
         self.has_border = False
 
+        # The title of the tab
+        self.title = "New Tab"
+        self.show_title = False
+
     def check_keys(self, key_pressed):
         """
         This function will be called every frame but only
@@ -230,6 +234,14 @@ class Window:
                                self.get_color("text"))
                 self.draw_text(tab[1].translate_y(tab[1].height), tab[1].translate_x(tab[1].width), "\u251B",
                                self.get_color("text"))
+            if tab[1].show_title:
+              # Draw the title
+              title_color = "text"
+              if tab[0] == self.current_tab:
+                title_color = "highlighted"
+              
+              self.draw_text(tab[1]translate_y(0), tab[1].translate_x(3),
+              tab[1].title, self.get_color(title_color))
 
     def _tab_move_cursor(self):
         # Iterate through every tab and move

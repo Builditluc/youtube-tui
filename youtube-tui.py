@@ -33,8 +33,10 @@ class Videos(Tab):
         self.videos_x = self.videos_y = 1
 
         self.current_line = 2
-
+        
         self.has_border = True
+        self.show_title = True
+        
 
     def update(self):
         # Calculate the max lines and the bottom line
