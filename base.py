@@ -22,7 +22,7 @@ class Tab:
         self.height = 0
 
         # The items the user can scroll through
-        self.scrollable_items: [[object, bool]] = []
+        self.scrollable_items = []
 
         # Variables for the Scrolling
         self.current_line = 0
@@ -38,6 +38,9 @@ class Tab:
         # Variables for the translation of coords
         self.translate_x = lambda x: x
         self.translate_y = lambda y: y
+
+        # Variables for the cursor position
+        self.cursor_x = self.cursor_y = 0
 
         # Variables for the border
         self.has_border = False
@@ -82,17 +85,17 @@ class Tab:
             self.top_line += direction
             return
 
-        # Scroll up
-        # current cursor position or top position is greater than 0
-        if (direction == self.scroll_up) and (self.top_line > 0 or self.current_line):
-            self.current_line = next_line
-            return
-
         # Scroll down
         # next cursor position is above max lines,
         # but absolute position of next cursor could not touch the bottom
         if (direction == self.scroll_down) and (next_line < self.max_lines) \
-                and (not self.top_line + next_line >= self.bottom_line):
+                and (self.top_line + next_line < self.bottom_line):
+            self.current_line = next_line
+            return
+
+        # Scroll up
+        # current cursor position or top position is greater than 0
+        if (direction == self.scroll_up) and (self.top_line > 0 or self.current_line):
             self.current_line = next_line
             return
 
@@ -179,6 +182,8 @@ class Window:
         self._tab_draw_border()
         self.late_update(); self._tab_late_update()
 
+        self._tab_move_cursor()
+
         # Refreshing the Screen at the end of the Frame
         self._update_screen()
 
@@ -225,6 +230,17 @@ class Window:
                                self.get_color("text"))
                 self.draw_text(tab[1].translate_y(tab[1].height), tab[1].translate_x(tab[1].width), "\u251B",
                                self.get_color("text"))
+
+    def _tab_move_cursor(self):
+        # Iterate through every tab and move
+        # the cursor if the tab is selected
+        for tab in self.tabs:
+            if tab[0] == self.current_tab:
+                self.stdscr.move(
+                    tab[1].translate_y(tab[1].cursor_y),
+                    tab[1].translate_x(tab[1].cursor_x)
+                )
+                return
 
     def _update_screen(self):
         """
@@ -294,7 +310,7 @@ class Window:
 
         # If the current tab is the last tab,
         # select the first
-        if current_tab_number == len(self.tabs):
+        if current_tab_number == len(self.tabs)-1:
             self.current_tab = 0
             return
 
