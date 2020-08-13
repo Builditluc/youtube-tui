@@ -5,11 +5,15 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.firefox.options import Options
 import urllib.parse
 import time
+import os
 
-options = Options()
-options.headless = True
-driver = webdriver.Firefox(options=options)
-
+driver = ""
+if os.environ.get("DEBUG_YOUTUBE_TUI") != "True":
+    options = Options()
+    options.headless = True
+    driver = webdriver.Firefox(options=options)
+else:
+    driver = webdriver.Firefox()
 class YtVideo:
     def __init__(self, title_arg, creator_arg, url_arg):
         self.title = title_arg
