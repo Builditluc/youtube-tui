@@ -19,9 +19,9 @@ except:
         driver = webdriver.Chrome(options=options)
     except:
         try:
-            driver = webdriver.Safari(options=options)
+            driver = webdriver.Safari()
         except:
-            driver= webdriver.IE(options=options)
+            driver= webdriver.Ie(options=options)
 class YtVideo:
     def __init__(self, title_arg, creator_arg, url_arg):
         self.title = title_arg
