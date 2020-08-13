@@ -29,12 +29,12 @@ def webscrape(search: bool):
     for creator in creators:
         i += 1
         if search == True:
-            print("we're searching")
+            #print("we're searching")
             if (i % 2) != 0:
-                print(creator.text)
+                #print(creator.text)
                 creators_array.append(creator.text)
         else:
-            print(creator.text)
+            #print(creator.text)
             creators_array.append(creator.text)
 
     urls = ""
@@ -57,8 +57,10 @@ def webscrape(search: bool):
     return_value = []
     for i in range(len(titles_array)):
         
-        print(i)
-        print(len(creators_array))
+       # print(i)
+       # print(len(creators_array))
+       # print(titles_array[i])
+       # print(creators_array[i])
         return_value.append(YtVideo(titles_array[i - 1], creators_array[i - 1], urls_array[i - 1]))
 
     return return_value
@@ -78,15 +80,15 @@ def search(text):
 
 
     WebDriverWait(driver, 10).until(
-        EC.element_to_be_clickable((By.XPATH, "/html/body/ytd-app/div/ytd-page-manager/ytd-search/div[1]/ytd-two-column-search-results-renderer/div/ytd-section-list-renderer/div[2]/ytd-item-section-renderer/div[3]/ytd-horizontal-card-list-renderer/div[1]/h2/ytd-rich-list-header-renderer/div/div[2]/yt-formatted-string[1]/span[2]"))
+        EC.element_to_be_clickable((By.XPATH, "//*[@id=\"logo-icon-container\"]"))
     )
-    print("it loaded")
-    #time.sleep(2)
+    #print("it loaded")
+    time.sleep(0.4)
     return webscrape(True)
         
     
     
 #print(get_main_page())
-for i in search("star wars squadrons"):
+for i in get_main_page():
     print(i.title + " " + i.url + " " + i.creator)
 #driver.quit()
