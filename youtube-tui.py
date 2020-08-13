@@ -6,11 +6,11 @@ import curses.ascii
 import string
 from base import Application, Window, Tab
 from backend import get_main_page, search, YtVideo
+
 global yt_videos
 
 yt_videos = get_main_page()
 
-# backend.driver.close()
 
 class Videos(Tab):
     def __init__(self, parent):
@@ -82,9 +82,11 @@ class Search_bar(Tab):
 
         # When the user has pressed the return key,
         # search for the current string in youtube
-        if key_pressed == curses.KEY_ENTER:
+        if key_pressed in (curses.KEY_ENTER, 10):
             global yt_videos
             yt_videos = search(self.search_string)
+            self.parent.videos_tab.scrollable_items = yt_videos
+            self.search_string = ""
 
     def update(self):
         # Calculate new cursor positions for the tab

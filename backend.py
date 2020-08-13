@@ -72,11 +72,8 @@ def webscrape(search: bool):
     # Generate return value
     return_value = []
     for i in range(len(titles_array)):
-
-       # print(i)
-       # print(len(creators_array))
-       # print(titles_array[i])
-       # print(creators_array[i])
+        if i >= 20:
+            break
         return_value.append(
             YtVideo(titles_array[i - 1], creators_array[i - 1], urls_array[i - 1]))
 
@@ -113,6 +110,6 @@ def search(text):
 
 # print(get_main_page())
 # for i in
-print(search("minecraft"))
+#print(search("minecraft"))
 #print(i.title + " " + i.url + " " + i.creator)
 # driver.quit()
