@@ -5,6 +5,7 @@ import curses
 import curses.ascii
 import string
 from base import Application, Window, Tab
+#import backend
 
 class yt_video:
     def __init__(self, title_arg, creator_arg, url_arg):
@@ -16,7 +17,7 @@ class yt_video:
         self.url = url_arg
 
 yt_videos = []
-for i in range(0, 20):
+for i in range(0, 100):
     title = "Yt - Video No. {}".format(i)
     creator = "Yt - Creator No. {}".format(i)
     url = "https://youtube.com/watch?id={}".format(i)
@@ -24,6 +25,10 @@ for i in range(0, 20):
     new = yt_video(title, creator, url)
 
     yt_videos.append(new)
+
+#yt_videos = backend.get_main_page()
+
+#backend.driver.close()
 
 class Videos(Tab):
     def __init__(self, parent):
@@ -33,8 +38,10 @@ class Videos(Tab):
         self.videos_x = self.videos_y = 1
 
         self.current_line = 2
-
+        
         self.has_border = True
+        self.show_title = True
+        
 
     def update(self):
         # Calculate the max lines and the bottom line
@@ -74,6 +81,7 @@ class Search_bar(Tab):
         self.search_string_x = self.search_string_y = 1
 
         self.has_border = True
+        self.show_cursor = True
 
     def check_keys(self, key_pressed):
         if key_pressed < 0:
@@ -90,6 +98,12 @@ class Search_bar(Tab):
         if key_pressed in [curses.ascii.BS, curses.KEY_BACKSPACE]:
             self.search_string = self.search_string[:len(self.search_string) - 1]
             return
+
+        # When the user has pressed the return key,
+        # search for the current string in youtube
+        if key_pressed == curses.KEY_ENTER:
+            #yt_videos = backend.search(self.search_string)
+            pass
 
     def update(self):
         # Calculate new cursor positions for the tab

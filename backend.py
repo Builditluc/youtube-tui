@@ -30,7 +30,6 @@ def webscrape(search: bool):
     for creator in creators:
         i += 1
         if (i % 2) == 0:
-            print(creator.text)
             creators_array.append(creator.text)
 
 
@@ -67,22 +66,10 @@ def get_main_page():
 
 
 def search(text):
-    # search_bar = driver.find_element_by_xpath("//input[@id='search']")
-    # search_bar.send_keys(text)
-    # search_bar.send_keys(Keys.RETURN)
     request("https://www.youtube.com/results?search_query=" + urllib.parse.quote(text))
 
 
     WebDriverWait(driver, 10).until(
         EC.element_to_be_clickable((By.XPATH, "/html/body/ytd-app/div/ytd-page-manager/ytd-search/div[1]/ytd-two-column-search-results-renderer/div/ytd-section-list-renderer/div[2]/ytd-item-section-renderer/div[3]/ytd-horizontal-card-list-renderer/div[1]/h2/ytd-rich-list-header-renderer/div/div[2]/yt-formatted-string[1]/span[2]"))
     )
-    print("it loaded")
-    #time.sleep(2)
     return webscrape(True)
-        
-    
-    
-#print(get_main_page())
-for i in search("star wars squadrons"):
-    print(i.title + " " + i.url + " " + i.creator)
-#driver.quit()

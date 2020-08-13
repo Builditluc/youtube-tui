@@ -45,6 +45,11 @@ class Tab:
         # Variables for the border
         self.has_border = False
 
+        # The title of the tab
+        self.title = "New Tab"
+        self.show_title = False
+        self.show_cursor = False
+
     def check_keys(self, key_pressed):
         """
         This function will be called every frame but only
@@ -114,6 +119,7 @@ class Tab:
     def get_color(self, name):
         return self.parent.get_color(name)
 
+
 class Window:
     """
     Simple class for a curses Window
@@ -172,15 +178,18 @@ class Window:
         """
         self.height, self.width = self.stdscr.getmaxyx()
         self.key_pressed = self.stdscr.getch()
-        self.check_keys(); self._tab_check_keys()
+        self.check_keys();
+        self._tab_check_keys()
 
-        self.update(); self._tab_update()
+        self.update();
+        self._tab_update()
 
         # Clear the Screen
         self.stdscr.erase()
 
         self._tab_draw_border()
-        self.late_update(); self._tab_late_update()
+        self.late_update();
+        self._tab_late_update()
 
         self._tab_move_cursor()
 
@@ -191,7 +200,7 @@ class Window:
         # Iterate through every tab and call the update function
         for tab in self.tabs:
             tab[1].update()
-    
+
     def _tab_late_update(self):
         # Iterate through every tab and call the late update function 
         for tab in self.tabs:
@@ -212,14 +221,14 @@ class Window:
             if tab[1].has_border:
                 # Draw the horizontal lines
                 self.draw_text(tab[1].translate_y(0), tab[1].translate_x(0),
-                               "\u2501"*tab[1].width, self.get_color("text"))
+                               "\u2501" * tab[1].width, self.get_color("text"))
                 self.draw_text(tab[1].translate_y(tab[1].height), tab[1].translate_x(0),
-                               "\u2501"*tab[1].width, self.get_color("text"))
+                               "\u2501" * tab[1].width, self.get_color("text"))
 
                 # Draw the vertical lines
                 for i in range(1, tab[1].height):
                     self.draw_text(tab[1].translate_y(i), tab[1].translate_x(0),
-                                   "\u2503" + " "*(tab[1].width - 1) + "\u2503", self.get_color("text"))
+                                   "\u2503" + " " * (tab[1].width - 1) + "\u2503", self.get_color("text"))
 
                 # Draw the edges
                 self.draw_text(tab[1].translate_y(0), tab[1].translate_x(0), "\u250F",
@@ -230,6 +239,14 @@ class Window:
                                self.get_color("text"))
                 self.draw_text(tab[1].translate_y(tab[1].height), tab[1].translate_x(tab[1].width), "\u251B",
                                self.get_color("text"))
+            if tab[1].show_title:
+                # Draw the title
+                title_color = "text"
+                if tab[0] == self.current_tab:
+                    title_color = "highlighted"
+
+                self.draw_text(tab[1].translate_y(0), tab[1].translate_x(2),
+                               tab[1].title, self.get_color(title_color))
 
     def _tab_move_cursor(self):
         # Iterate through every tab and move
@@ -302,6 +319,19 @@ class Window:
         if is_current:
             self.current_tab = tab_number
 
+    def get_tab(self, tab_numer):
+        """
+        Gets the tab with the tab number
+        :param tab_number: The number of the tab
+        :return: If a tab was found the tab otherwise None
+        """
+        # Iterate trough every tab and compare the tab numbers
+        for tab in self.tabs:
+            if tab[0] == tab_numer:
+                return tab[1]
+
+        return None
+
     def select_next_tab(self):
         """
         Selects the next tab of the window
@@ -310,12 +340,21 @@ class Window:
 
         # If the current tab is the last tab,
         # select the first
-        if current_tab_number == len(self.tabs)-1:
+        if current_tab_number == len(self.tabs) - 1:
             self.current_tab = 0
             return
 
         # Increase the current number by one
         self.current_tab += 1
+
+        # If the selected tab wants to hide the cursor,
+        # hide it
+        selected_tab: Tab = self.get_tab(self.current_tab)
+        if selected_tab.show_cursor:
+            self.set_cursor_state(1)
+        else:
+            self.set_cursor_state(0)
+            self.stdscr.move(0, 0)
 
     def select_previous_tab(self):
         """
