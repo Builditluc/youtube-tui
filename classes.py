@@ -20,7 +20,7 @@ def get_methods():
 
     for i in fileset:
         file_names.append(i.split(".")[0])
-        exec("import " + i)
+        exec("import " + i.split(".")[0])
     return file_names 
         
 print(get_methods())
