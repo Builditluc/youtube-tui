@@ -5,32 +5,12 @@ import curses
 import curses.ascii
 import string
 from base import Application, Window, Tab
-import backend
-
+from backend import get_main_page, search, YtVideo
 global yt_videos
 
-class yt_video:
-    def __init__(self, title_arg, creator_arg, url_arg):
-        #global title
-        #global creator
-        #global url
-        self.title = title_arg
-        self.creator = creator_arg
-        self.url = url_arg
+yt_videos = get_main_page()
 
-yt_videos = []
-for i in range(0, 100):
-    title = "Yt - Video No. {}".format(i)
-    creator = "Yt - Creator No. {}".format(i)
-    url = "https://youtube.com/watch?id={}".format(i)
-
-    new = yt_video(title, creator, url)
-
-    yt_videos.append(new)
-
-yt_videos = backend.get_main_page()
-
-#backend.driver.close()
+# backend.driver.close()
 
 class Videos(Tab):
     def __init__(self, parent):
@@ -40,10 +20,9 @@ class Videos(Tab):
         self.videos_x = self.videos_y = 1
 
         self.current_line = 2
-        
+
         self.has_border = True
         self.show_title = True
-        
 
     def update(self):
         # Calculate the max lines and the bottom line
@@ -105,8 +84,7 @@ class Search_bar(Tab):
         # search for the current string in youtube
         if key_pressed == curses.KEY_ENTER:
             global yt_videos
-            yt_videos = backend.search(self.search_string)
-            #pass
+            yt_videos = search(self.search_string)
 
     def update(self):
         # Calculate new cursor positions for the tab
