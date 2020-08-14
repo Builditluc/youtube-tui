@@ -3,6 +3,7 @@ The main file for the youtube-tui
 """
 import curses
 import curses.ascii
+import sys
 from base import Application, Window
 from backend import get_main_page, YtVideo
 from widgets import search_bar, videos_list
@@ -56,6 +57,11 @@ class Youtube_tui(Window):
         # switch the current tab
         if self.key_pressed == curses.ascii.TAB:
             self.select_next_tab()
+
+        # If the user pressed the quit key,
+        # quit the program
+        if self.key_pressed in [ord("q"), curses.ascii.ESC]:
+            sys.exit()
 
     def update(self):
         # Calculating the x coordinate of the title,
