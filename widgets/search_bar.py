@@ -1,5 +1,6 @@
 import string
 import curses
+import curses.ascii
 from base import Tab
 from backend import search
 
@@ -21,7 +22,7 @@ class Search_bar(Tab):
 
         # When the user has pressed a ascii key,
         # update the search string
-        if any(chr(key_pressed) in sublist for sublist in [string.ascii_letters, string.digits, string.punctuation]):
+        if any(chr(key_pressed) in sublist for sublist in [string.ascii_letters, string.digits, string.punctuation]) or key_pressed == curses.ascii.SP:
             self.search_string += chr(key_pressed)
             return
 
