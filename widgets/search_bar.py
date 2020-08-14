@@ -3,6 +3,7 @@ import curses
 from base import Tab
 from backend import search
 
+
 class Search_bar(Tab):
     def __init__(self, parent):
         super(__class__, self).__init__(parent)

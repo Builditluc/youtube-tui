@@ -342,10 +342,9 @@ class Window:
         # select the first
         if current_tab_number == len(self.tabs) - 1:
             self.current_tab = 0
-            return
-
-        # Increase the current number by one
-        self.current_tab += 1
+        else:
+            # Increase the current number by one
+            self.current_tab += 1
 
         # If the selected tab wants to hide the cursor,
         # hide it
@@ -379,6 +378,7 @@ class Window:
         :param state: 1 - Shows the Cursor
         :param state: 2 - Makes the Cursor highly visible
         """
+        cursor_state = curses.curs_set(state)
         curses.curs_set(state)
 
     def exit(self):

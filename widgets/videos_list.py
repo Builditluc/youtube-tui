@@ -1,6 +1,7 @@
 import curses
 from base import Tab
 
+
 class Videos(Tab):
     def __init__(self, parent):
         super(__class__, self).__init__(parent)
