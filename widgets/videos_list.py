@@ -40,6 +40,7 @@ class Videos(Tab):
         self.cell_width = self.cell_height = 4
 
         self.current_line = 2
+        self.title = "Home Page"
 
         self.has_border = True
         self.show_title = True

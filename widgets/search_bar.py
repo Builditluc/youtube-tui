@@ -13,8 +13,11 @@ class Search_bar(Tab):
         self.search_string = ""
         self.search_string_x = self.search_string_y = 1
 
+        self.title = "Search"
+
         self.has_border = True
         self.show_cursor = True
+        self.show_title = True
 
     def check_keys(self, key_pressed):
         if key_pressed < 0:
@@ -37,6 +40,7 @@ class Search_bar(Tab):
         if key_pressed in (curses.KEY_ENTER, 10):
             self.parent.yt_videos = search(self.search_string)
             self.parent.videos_tab.scrollable_items = self.parent.yt_videos
+            self.parent.videos_tab.title = "Results for '{}'".format(self.search_string)
             self.search_string = ""
 
     def update(self):
