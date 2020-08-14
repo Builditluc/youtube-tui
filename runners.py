@@ -1,13 +1,14 @@
 import sys
-import glob
 import os
+
 
 class methods:
     def __init__(self, title, name):
         self.title = title
         self.name = name
 
-def get_python_files(dir: str):
+
+def _get_python_files_(dir: str):
     output = []
     fileset = os.listdir(dir)
     for file in fileset:
@@ -16,17 +17,23 @@ def get_python_files(dir: str):
             output.append(path)
     return output
 
+
 def get_methods():
     file_names = []
-    for i in get_python_files("runners"):
+    for i in _get_python_files_("runners"):
         exec("import runners." + i)
-        file_names.append(methods(eval("runners." + i + "." + i + ".title"), i))   
+        file_names.append(
+            methods(eval("runners." + i + "." + i + ".title"), i))
+    print(sys.modules.keys())
     return file_names
-
-#print(get_methods())
 
 
 def watch_video(url, method: methods):
-    return eval("runners." + method.name + "." + method.name + ".run(" + url + ")")
-
-watch_video("'https://www.youtube.com/watch?v=mf5SZ5Q7fMo'", methods("", "mpv"))
+    print(method.name)
+    print(url)
+    print(sys.modules.keys())
+    exec("import runners." + method.name)
+    command = "runners." + method.name + \
+        "." + method.name + "().run(" + url + ")"
+    print(command)
+    return eval(command)
