@@ -24,16 +24,11 @@ def get_methods():
         exec("import runners." + i)
         file_names.append(
             methods(eval("runners." + i + "." + i + ".title"), i))
-    print(sys.modules.keys())
     return file_names
 
 
 def watch_video(url, method: methods):
-    print(method.name)
-    print(url)
-    print(sys.modules.keys())
     exec("import runners." + method.name)
     command = "runners." + method.name + \
         "." + method.name + "().run(" + url + ")"
-    print(command)
     return eval(command)
