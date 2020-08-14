@@ -3,7 +3,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.firefox.options import Options
-from selenium.webdriver.chrome.options import Options
+
 import urllib.parse
 import time
 import os
@@ -16,11 +16,13 @@ try:
     driver = webdriver.Firefox(options=options)
 except:
     try:
+        from selenium.webdriver.chrome.options import Options
         driver = webdriver.Chrome(options=options)
     except:
         try:
             driver = webdriver.Safari()
         except:
+            from selenium.webdriver.ie.options import Options
             driver= webdriver.Ie(options=options)
 class YtVideo:
     def __init__(self, title_arg, creator_arg, url_arg):
