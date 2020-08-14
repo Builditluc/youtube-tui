@@ -88,9 +88,6 @@ def get_main_page():
 
 
 def search(text):
-    # search_bar = driver.find_element_by_xpath("//input[@id='search']")
-    # search_bar.send_keys(text)
-    # search_bar.send_keys(Keys.RETURN)
     request("https://www.youtube.com/results?search_query=" +
             urllib.parse.quote(text))
 
@@ -106,10 +103,3 @@ def search(text):
         return webscrape(True)
     else:
         return "error"
-
-
-# print(get_main_page())
-# for i in
-#print(search("minecraft"))
-#print(i.title + " " + i.url + " " + i.creator)
-# driver.quit()
