@@ -2,7 +2,7 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-from selenium.webdriver.firefox.options import Options
+from selenium.webdriver.chrome.options import Options
 
 import urllib.parse
 import time
@@ -13,6 +13,7 @@ options = Options()
 if os.environ.get("DEBUG_YOUTUBE_TUI") != "True":
     options.headless = True
 try:
+    from selenium.webdriver.firefox.options import Options
     driver = webdriver.Firefox(options=options)
 except:
     try:

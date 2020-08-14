@@ -178,7 +178,7 @@ class Window:
         """
         self.height, self.width = self.stdscr.getmaxyx()
         self.key_pressed = self.stdscr.getch()
-        self.check_keys();
+        self.check_keys()
         self._tab_check_keys()
 
         self.update();
@@ -219,26 +219,7 @@ class Window:
         # a border if needed
         for tab in self.tabs:
             if tab[1].has_border:
-                # Draw the horizontal lines
-                self.draw_text(tab[1].translate_y(0), tab[1].translate_x(0),
-                               "\u2501" * tab[1].width, self.get_color("text"))
-                self.draw_text(tab[1].translate_y(tab[1].height), tab[1].translate_x(0),
-                               "\u2501" * tab[1].width, self.get_color("text"))
-
-                # Draw the vertical lines
-                for i in range(1, tab[1].height):
-                    self.draw_text(tab[1].translate_y(i), tab[1].translate_x(0),
-                                   "\u2503" + " " * (tab[1].width - 1) + "\u2503", self.get_color("text"))
-
-                # Draw the edges
-                self.draw_text(tab[1].translate_y(0), tab[1].translate_x(0), "\u250F",
-                               self.get_color("text"))
-                self.draw_text(tab[1].translate_y(0), tab[1].translate_x(tab[1].width), "\u2513",
-                               self.get_color("text"))
-                self.draw_text(tab[1].translate_y(tab[1].height), tab[1].translate_x(0), "\u2517",
-                               self.get_color("text"))
-                self.draw_text(tab[1].translate_y(tab[1].height), tab[1].translate_x(tab[1].width), "\u251B",
-                               self.get_color("text"))
+                self._draw_border(tab)
             if tab[1].show_title:
                 # Draw the title
                 title_color = "text"
@@ -247,6 +228,28 @@ class Window:
 
                 self.draw_text(tab[1].translate_y(0), tab[1].translate_x(2),
                                tab[1].title, self.get_color(title_color))
+
+    def _draw_border(self, tab:[int, Tab]):
+        # Draw the horizontal lines
+        self.draw_text(tab[1].translate_y(0), tab[1].translate_x(0),
+                       "\u2501" * tab[1].width, self.get_color("text"))
+        self.draw_text(tab[1].translate_y(tab[1].height), tab[1].translate_x(0),
+                       "\u2501" * tab[1].width, self.get_color("text"))
+
+        # Draw the vertical lines
+        for i in range(1, tab[1].height):
+            self.draw_text(tab[1].translate_y(i), tab[1].translate_x(0),
+                           "\u2503" + " " * (tab[1].width - 1) + "\u2503", self.get_color("text"))
+
+        # Draw the edges
+        self.draw_text(tab[1].translate_y(0), tab[1].translate_x(0), "\u250F",
+                       self.get_color("text"))
+        self.draw_text(tab[1].translate_y(0), tab[1].translate_x(tab[1].width), "\u2513",
+                       self.get_color("text"))
+        self.draw_text(tab[1].translate_y(tab[1].height), tab[1].translate_x(0), "\u2517",
+                       self.get_color("text"))
+        self.draw_text(tab[1].translate_y(tab[1].height), tab[1].translate_x(tab[1].width), "\u251B",
+                       self.get_color("text"))
 
     def _tab_move_cursor(self):
         # Iterate through every tab and move
