@@ -48,23 +48,30 @@ class Videos(Tab):
         # Create/update the grid
         self.grid = []
         line = []
-        for i, video in enumerate(self.parent.yt_videos):
-            if i < 3:
-                cell = Cell(self, video.title, video.creator, video.url)
-                line.append(cell)
-            else:
+        for x, video in enumerate(self.parent.yt_videos):
+            cell = Cell(self, video.title, video.creator, video.url)
+            line.append(cell)
+
+            if len(line) == 3:
                 self.grid.append(line)
                 line = []
+
+        if line:
+            self.grid.append(line)
 
         # translate the cells
         self.cell_width = int((self.width // self.columns) - 1)
 
-        for line in self.grid:
-            for i, cell in enumerate(line):
+        # Calculate the max lines and the bottom line
+        self.max_lines = int((self.height // self.cell_height) - 1)
+        self.bottom_line = len(self.grid)
+
+        selected_rows = self.grid[self.top_line:self.top_line+self.max_lines]
+        for y, line in enumerate(selected_rows):
+            for x, cell in enumerate(line):
                 cell.translate(
-                    self.translate_y(1),
-                    self.translate_x(((self.cell_width + 1)* i) + 1)
-                    #self.translate_x(1)
+                    self.translate_y(((self.cell_height+ 1) * y) + 1),
+                    self.translate_x(((self.cell_width + 1) * x) + 1)
                 )
                 # Apply the height and width to all cells
                 cell.height = self.cell_height
@@ -75,13 +82,11 @@ class Videos(Tab):
 
         self.scrollable_items = self.grid
 
-        # Calculate the max lines and the bottom line
-        self.max_lines = self.height - 1
-        self.bottom_line = len(self.scrollable_items)
 
     def late_update(self):
         # Call the late update function of the cells
-        for line in self.grid:
+        selected_rows = self.grid[self.top_line:self.top_line+self.max_lines]
+        for line in selected_rows:
             for cell in line:
                 self.parent._draw_border([0, cell])
                 cell.late_update()
