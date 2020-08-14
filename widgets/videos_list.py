@@ -45,7 +45,7 @@ class Videos(Tab):
         self.show_title = True
 
     def update(self):
-        # Create the grid
+        # Create/update the grid
         self.grid = []
         line = []
         for i, video in enumerate(self.parent.yt_videos):
