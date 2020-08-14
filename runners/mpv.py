@@ -1,11 +1,6 @@
-import subprocess
-class mpv:
+from .runner_class import runner_class
+class mpv(runner_class):
     title = "Opens the video with mpv, no args."
     requires = ["mpv"]
     def run(self, url: str):
-        try:
-            subprocess.run(["mpv", url])
-        except FileNotFoundError:
-            print("Did you install the dependencies: ")
-            for i in self.requires:
-                print(i)
+        self.subprocess_run(["mpv", url], self.requires)

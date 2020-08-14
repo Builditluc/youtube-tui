@@ -1,6 +1,6 @@
-import subprocess
-class vlc:
+from .runner_class import runner_class
+class vlc(runner_class):
     title = "Opens the video with vlc, no args."
     requires = ["vlc"]
     def run(self, url: str):
-        subprocess.run(["vlc", url])
+         self.subprocess_run(["vlc", url], self.requires)

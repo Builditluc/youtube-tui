@@ -1,6 +1,6 @@
 import sys
 import os
-
+import subprocess
 
 class methods:
     def __init__(self, title, name):
@@ -32,3 +32,8 @@ def watch_video(url, method: methods):
     command = "runners." + method.name + \
         "." + method.name + "().run(" + url + ")"
     return eval(command)
+
+
+
+
+watch_video("'https://www.youtube.com/watch?v=dQw4w9WgXcQ'", methods("asdf", "mpv"))
