@@ -20,7 +20,7 @@ class Cell(Tab):
         # If the title is longer than the width of the cell,
         # show only a part of the title
         if len(self.title) >= self.width:
-            self.title = self.title[:self.width - 4] + "..."
+            self.title = self.title[:self.width - 5] + "..."
 
     def late_update(self):
         # Draw the title
