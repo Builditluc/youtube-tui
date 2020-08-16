@@ -44,6 +44,10 @@ class Videos(Tab):
         self.columns = 3
         self.grid = []
 
+        self.scroll_left = -1
+        self.scroll_right = 1
+        self.horizontal_position = 0
+
         self.videos_x = self.videos_y = 1
         self.cell_width = self.cell_height = 4
 
@@ -94,29 +98,13 @@ class Videos(Tab):
     def late_update(self):
         # Call the late update function of the cells
         selected_rows = self.grid[self.top_line:self.top_line+self.max_lines]
-        for i, line in enumerate(selected_rows):
-            for cell in line:
-                if i == self.current_line:
+        for y, line in enumerate(selected_rows):
+            for x, cell in enumerate(line):
+                if y == self.current_line and x == self.horizontal_position:
                     cell.selected = True
 
                 self.parent._draw_border([0, cell])
                 cell.late_update()
-                cell.selected = False
-
-        """# Draw the videos
-        max_title_len = self.parent.width - self.translate_x(5)
-        lines = self.scrollable_items[self.top_line:self.top_line + self.max_lines]
-        for y_offset, video in enumerate(lines):
-            draw_color = "text"
-            if y_offset == self.current_line:
-                draw_color = "highlighted"
-
-            video_title = video.title
-            if len(video_title) > max_title_len:
-                video_title = video_title[:max_title_len - 3] + "..."
-
-            self.draw_text(self.videos_y + y_offset, self.videos_x, video_title, self.get_color(draw_color))
-        """
 
     def check_keys(self, key_pressed):
         # When the user has pressed the up key,
@@ -128,5 +116,47 @@ class Videos(Tab):
         # When the user has pressed the down key,
         # call the scroll function
         if key_pressed == curses.KEY_DOWN:
+            self.scroll(self.scroll_down)
+            return
+
+        # When the user has pressed the left key,
+        # call the horizontal scroll function
+        if key_pressed == curses.KEY_LEFT:
+            self.scroll_horizontally(self.scroll_left)
+            return
+
+        # When the user has pressed the right key,
+        # call the horizontal scroll function
+        if key_pressed == curses.KEY_RIGHT:
+            self.scroll_horizontally(self.scroll_right)
+            return
+
+    def scroll_horizontally(self, direction):
+        # next cursor position after scrolling
+        next_position = self.horizontal_position + direction
+
+        # Scroll left
+        # current cursor position or left position is greater or equal than 0
+        if (direction == self.scroll_left) and (self.horizontal_position >= 0) and (next_position >= 0):
+            self.horizontal_position = next_position
+            return
+
+        # Scroll right
+        # absolute position of next cursor is not the right edge
+        if (direction == self.scroll_right) and (next_position < self.columns):
+            self.horizontal_position = next_position
+            return
+
+        # Left overflow
+        # next cursor position is smaller than 0 and the current line is not the top
+        if (direction == self.scroll_left) and (next_position < 0 < self.current_line):
+            self.horizontal_position = self.columns - 1
+            self.scroll(self.scroll_up)
+            return
+
+        # Right overflow
+        # next cursor position is over the right edge
+        if (direction == self.scroll_right) and (next_position == self.columns):
+            self.horizontal_position = 0
             self.scroll(self.scroll_down)
             return
