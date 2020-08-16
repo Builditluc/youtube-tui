@@ -5,8 +5,9 @@ import curses
 import curses.ascii
 import sys
 from base import Application, Window
-from backend import get_main_page, YtVideo
-from widgets import search_bar, videos_list
+from backend import get_main_page, YtVideo, driver
+from widgets import search_bar, videos_list, voptions_field
+
 
 class Youtube_tui(Window):
     def __init__(self, stdscr, application):
@@ -18,8 +19,20 @@ class Youtube_tui(Window):
         self.title = "Youtube-TUI"
         self.title_x = self.title_y = 0
 
+        # Adding the Video Options Tab to the Window
+        voptions_trans_x = 0
+        voptions_trans_y = 1
+
+        self.voptions_tab = voptions_field.VOptions(self)
+        self.voptions_tab.translate(voptions_trans_y, voptions_trans_x)
+
+        self.voptions_tab.width = 15
+        self.voptions_tab.height = self.height - (voptions_trans_y + 1)
+
+        self.add_tab(self.voptions_tab, False)
+
         # Adding the Search Bar to the Window and select it
-        search_trans_x = 0
+        search_trans_x = (voptions_trans_x + self.voptions_tab.width) + 1
         search_trans_y = 1
 
         self.search_tab = search_bar.Search_bar(self)
@@ -31,14 +44,14 @@ class Youtube_tui(Window):
         self.add_tab(self.search_tab, True)
 
         # Adding the Videos Tab to the Window
-        videos_trans_x = 0
+        videos_trans_x = search_trans_x
         videos_trans_y = search_trans_y + (self.search_tab.height + 1)
 
         self.videos_tab = videos_list.Videos(self)
         self.videos_tab.translate(videos_trans_y, videos_trans_x)
 
         self.videos_tab.width = self.width - (videos_trans_x + 1)
-        self.videos_tab.height = curses.LINES - (videos_trans_y + 2)
+        self.videos_tab.height = curses.LINES - (videos_trans_y + 1)
 
         self.add_tab(self.videos_tab, False)
 
@@ -76,4 +89,13 @@ class Youtube_tui(Window):
 if __name__ == "__main__":
     app: Application = Application()
     app.set_main_window(Youtube_tui(app.stdscr, app))
+
+    """try:
+        app.run()
+    except BaseException as ex:
+        print(ex)"""
+
     app.run()
+
+    driver.close()
+    print("\nDriver was closed")

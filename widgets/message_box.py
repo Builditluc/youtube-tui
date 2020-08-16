@@ -8,7 +8,7 @@ class Message_Box(Tab):
 
         self.show = False
         self.message_title = ""
-        self.message = ""
+        self.message_description = ""
 
         self.message_x = self.message_y = 1
 
@@ -28,3 +28,11 @@ class Message_Box(Tab):
         if self.show:
             # Draw the message
             self.draw_text(self.message_y, self.message_x, self.message, self.get_color("text"))
+
+    def show_message(self, title:str, description:str):
+        self.show = True
+        self.message_title = title
+        self.message_description = description
+
+    def hide_message(self):
+        self.show = False
