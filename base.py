@@ -50,6 +50,8 @@ class Tab:
         self.show_title = False
         self.show_cursor = False
 
+        self.is_selectable = True
+
     def check_keys(self, key_pressed):
         """
         This function will be called every frame but only
@@ -352,6 +354,12 @@ class Window:
         # If the selected tab wants to hide the cursor,
         # hide it
         selected_tab: Tab = self.get_tab(self.current_tab)
+        if not selected_tab.is_selectable:
+            for tab in self.tabs:
+                if tab[1].is_selectable:
+                    self.select_next_tab()
+                    return
+
         if selected_tab.show_cursor:
             self.set_cursor_state(1)
         else:

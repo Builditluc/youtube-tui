@@ -57,6 +57,10 @@ class Youtube_tui(Window):
 
         self.init_colors()
 
+    def __del__(self):
+        driver.close()
+        print("\nDriver was closed")
+
     def init_colors(self):
         curses.start_color()
 
@@ -74,7 +78,7 @@ class Youtube_tui(Window):
         # If the user pressed the quit key,
         # quit the program
         if self.key_pressed in [ord("q"), curses.ascii.ESC]:
-            sys.exit()
+            self.__del__()
 
     def update(self):
         # Calculating the x coordinate of the title,
@@ -90,12 +94,13 @@ if __name__ == "__main__":
     app: Application = Application()
     app.set_main_window(Youtube_tui(app.stdscr, app))
 
-    """try:
+    try:
         app.run()
     except BaseException as ex:
-        print(ex)"""
-
-    app.run()
-
-    driver.close()
-    print("\nDriver was closed")
+        print(ex)
+        try:
+            driver.close()
+            print("\nDriver was closed")
+        except:
+            print("\nDriver was already closed")
+        sys.exit()

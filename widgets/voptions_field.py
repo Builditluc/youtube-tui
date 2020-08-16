@@ -28,6 +28,7 @@ class VOptions(Tab):
 
         self.has_border = True
         self.show_title = True
+        self.is_selectable = False
 
     def late_update(self):
         # If a video was selected,

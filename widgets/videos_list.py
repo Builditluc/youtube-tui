@@ -10,6 +10,8 @@ class Cell(Tab):
         self.author = author
         self.url = url
 
+        self.selected = False
+
         self.title_pos_y = 1
         self.title_pos_x = 2
 
@@ -23,10 +25,16 @@ class Cell(Tab):
             self.title = self.title[:self.width - 5] + "..."
 
     def late_update(self):
+        draw_color = "text"
+        # If the cell is selected,
+        # change the color
+        if self.selected:
+            draw_color = "highlighted"
+
         # Draw the title
         self.parent.parent.draw_text(self.translate_y(self.title_pos_y),
                                      self.translate_x(self.title_pos_x),
-                                     self.title, self.get_color("text"))
+                                     self.title, self.get_color(draw_color))
 
 
 class Videos(Tab):
@@ -39,7 +47,6 @@ class Videos(Tab):
         self.videos_x = self.videos_y = 1
         self.cell_width = self.cell_height = 4
 
-        self.current_line = 2
         self.title = "Home Page"
 
         self.has_border = True
@@ -87,10 +94,14 @@ class Videos(Tab):
     def late_update(self):
         # Call the late update function of the cells
         selected_rows = self.grid[self.top_line:self.top_line+self.max_lines]
-        for line in selected_rows:
+        for i, line in enumerate(selected_rows):
             for cell in line:
+                if i == self.current_line:
+                    cell.selected = True
+
                 self.parent._draw_border([0, cell])
                 cell.late_update()
+                cell.selected = False
 
         """# Draw the videos
         max_title_len = self.parent.width - self.translate_x(5)
