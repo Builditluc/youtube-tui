@@ -1,4 +1,5 @@
 import curses
+import curses.ascii
 from base import Tab
 
 
@@ -107,6 +108,12 @@ class Videos(Tab):
                 cell.late_update()
 
     def check_keys(self, key_pressed):
+        # When the user has pressed the return key,
+        # populate the video options tab with options for the selected video
+        if key_pressed == ord("\n"):
+            self.parent.voptions_tab.select_video(self.grid[self.top_line:self.top_line+self.max_lines][self.current_line][self.horizontal_position])
+            return
+
         # When the user has pressed the up key,
         # call the scroll function
         if key_pressed == curses.KEY_UP:
