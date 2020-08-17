@@ -149,7 +149,7 @@ class Videos(Tab):
 
         # Left overflow
         # next cursor position is smaller than 0 and the current line is not the top
-        if (direction == self.scroll_left) and (next_position < 0 < self.current_line):
+        if (direction == self.scroll_left) and (next_position < 0):
             self.horizontal_position = self.columns - 1
             self.scroll(self.scroll_up)
             return
