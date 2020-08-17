@@ -94,7 +94,7 @@ if __name__ == "__main__":
     app: Application = Application()
     app.set_main_window(Youtube_tui(app.stdscr, app))
 
-    try:
+    """try:
         app.run()
     except BaseException as ex:
         print(ex)
@@ -103,4 +103,6 @@ if __name__ == "__main__":
             print("\nDriver was closed")
         except:
             print("\nDriver was already closed")
-        sys.exit()
+        sys.exit()"""
+
+    app.run()

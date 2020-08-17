@@ -250,8 +250,11 @@ class Window:
                        self.get_color("text"))
         self.draw_text(tab[1].translate_y(tab[1].height), tab[1].translate_x(0), "\u2517",
                        self.get_color("text"))
-        self.draw_text(tab[1].translate_y(tab[1].height-1), tab[1].translate_x(tab[1].width), "\u251B",
-                       self.get_color("text"))
+        try:
+            self.draw_text(tab[1].translate_y(tab[1].height), tab[1].translate_x(tab[1].width), "\u251B",
+                           self.get_color("text"))
+        except:
+            pass
 
     def _tab_move_cursor(self):
         # Iterate through every tab and move
