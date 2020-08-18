@@ -27,7 +27,7 @@ class Message_Box(Tab):
     def late_update(self):
         if self.show:
             # Draw the message
-            self.draw_text(self.message_y, self.message_x, self.message, self.get_color("text"))
+            self.draw_text(self.message_y, self.message_x, self.message_description, self.get_color("text"))
 
     def show_message(self, title:str, description:str):
         self.show = True

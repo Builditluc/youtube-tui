@@ -7,7 +7,7 @@ import sys
 import load_config
 from base import Application, Window
 from backend import get_main_page, YtVideo, driver
-from widgets import search_bar, videos_list, voptions_field, help_menu
+from widgets import search_bar, videos_list, voptions_field, help_menu, message_box
 
 
 class Youtube_tui(Window):
@@ -72,6 +72,14 @@ class Youtube_tui(Window):
 
         self.add_tab(self.help_tab, False)
 
+        self.help_message = message_box.Message_Box(self)
+        self.help_message.translate(0, 0)
+
+        self.help_message.width = self.width - 1
+        self.help_message.height = curses.LINES - 1
+
+        self.help_number = self.add_tab(self.help_message, False)
+
         self.init_colors()
 
     def __del__(self):
@@ -114,7 +122,7 @@ if __name__ == "__main__":
     app.config = load_config.get_shortcuts()
     app.set_main_window(Youtube_tui(app.stdscr, app))
 
-    """try:
+    try:
         app.run()
     except BaseException as ex:
         print(ex)
@@ -123,6 +131,4 @@ if __name__ == "__main__":
             print("\nDriver was closed")
         except:
             print("\nDriver was already closed")
-        sys.exit()"""
-
-    app.run()
+        sys.exit()
