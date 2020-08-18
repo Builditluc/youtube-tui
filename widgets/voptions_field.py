@@ -37,12 +37,12 @@ class VOptions(Tab):
 
         # If the user pressed down the up key,
         # scroll up
-        if key_pressed == curses.KEY_UP:
+        if key_pressed == self.parent.get_binding("scroll_up"):
             self.scroll(self.scroll_up)
 
         # If the user pressed down the down key,
         # scroll down
-        if key_pressed == curses.KEY_DOWN:
+        if key_pressed == self.parent.get_binding("scroll_down"):
             self.scroll(self.scroll_down)
 
     def update(self):

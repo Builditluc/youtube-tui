@@ -37,7 +37,7 @@ class Search_bar(Tab):
 
         # When the user has pressed the return key,
         # search for the current string in youtube
-        if key_pressed in (curses.KEY_ENTER, 10):
+        if key_pressed == self.parent.get_binding("search"):
             self.parent.yt_videos = search(self.search_string)
             self.parent.videos_tab.scrollable_items = self.parent.yt_videos
             self.parent.videos_tab.title = "Results for '{}'".format(self.search_string)

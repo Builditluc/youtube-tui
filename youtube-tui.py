@@ -4,6 +4,7 @@ The main file for the youtube-tui
 import curses
 import curses.ascii
 import sys
+import load_config
 from base import Application, Window
 from backend import get_main_page, YtVideo, driver
 from widgets import search_bar, videos_list, voptions_field
@@ -14,6 +15,9 @@ class Youtube_tui(Window):
         super(__class__, self).__init__(stdscr, application)
 
         self.yt_videos: [YtVideo] = get_main_page()
+
+        # Storing the config
+        self.config = application.config
 
         # Initializing the variable for the title
         self.title = "Youtube-TUI"
@@ -72,12 +76,12 @@ class Youtube_tui(Window):
     def check_keys(self):
         # If the user pressed the Tab key,
         # switch the current tab
-        if self.key_pressed == curses.ascii.TAB:
+        if self.key_pressed == self.get_binding("switch_tabs"):
             self.select_next_tab()
 
         # If the user pressed the quit key,
         # quit the program
-        if self.key_pressed in [ord("q"), curses.ascii.ESC]:
+        if self.key_pressed == self.get_binding("quit"):
             self.__del__()
 
     def update(self):
@@ -89,9 +93,12 @@ class Youtube_tui(Window):
         # Draw the title onto the screen
         self.draw_text(self.title_y, self.title_x, self.title, self.get_color("title"))
 
+    def get_binding(self, name:str):
+        return load_config.get_binding(name, self.config)
 
 if __name__ == "__main__":
     app: Application = Application()
+    app.config = load_config.get_shortcuts()
     app.set_main_window(Youtube_tui(app.stdscr, app))
 
     """try:

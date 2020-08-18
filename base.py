@@ -407,6 +407,7 @@ class Application:
     """
     colormode: bool
     no_delay: bool
+    config: dict
 
     def __init__(self):
         super(__class__, self).__init__()

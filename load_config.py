@@ -18,6 +18,7 @@ def reset_shortcuts():
     config["shortcuts"] = {
         "switch_tabs": "TAB",
         "search": "ENTER",
+        "select_video": "ENTER",
         "scroll_up": "UP",
         "scroll_down": "DOWN",
         "scroll_left": "LEFT",
@@ -70,3 +71,15 @@ def convert_shortcut(shortcut: str):
     # If the shortcut is invalid,
     # return -1
     return -1
+
+
+def get_binding(name:str, config:dict):
+    """
+    Gets a key binding from a config dict and convert's it into a number
+    :param name: The name of the binding
+    :param config: The config dict read from the config file
+    :return: An integer containing the key number
+    """
+    shortcut = config.get(name, None)
+    if shortcut:
+        return convert_shortcut(shortcut)

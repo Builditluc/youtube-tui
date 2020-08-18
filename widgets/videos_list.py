@@ -110,31 +110,31 @@ class Videos(Tab):
     def check_keys(self, key_pressed):
         # When the user has pressed the return key,
         # populate the video options tab with options for the selected video
-        if key_pressed == ord("\n"):
+        if key_pressed == self.parent.get_binding("select_video"):
             self.parent.voptions_tab.select_video(self.grid[self.top_line:self.top_line+self.max_lines][self.current_line][self.horizontal_position])
             return
 
         # When the user has pressed the up key,
         # call the scroll function
-        if key_pressed == curses.KEY_UP:
+        if key_pressed == self.parent.get_binding("scroll_up"):
             self.scroll(self.scroll_up)
             return
 
         # When the user has pressed the down key,
         # call the scroll function
-        if key_pressed == curses.KEY_DOWN:
+        if key_pressed == self.parent.get_binding("scroll_down"):
             self.scroll(self.scroll_down)
             return
 
         # When the user has pressed the left key,
         # call the horizontal scroll function
-        if key_pressed == curses.KEY_LEFT:
+        if key_pressed == self.parent.get_binding("scroll_left"):
             self.scroll_horizontally(self.scroll_left)
             return
 
         # When the user has pressed the right key,
         # call the horizontal scroll function
-        if key_pressed == curses.KEY_RIGHT:
+        if key_pressed == self.parent.get_binding("scroll_right"):
             self.scroll_horizontally(self.scroll_right)
             return
 
