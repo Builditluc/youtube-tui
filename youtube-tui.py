@@ -7,7 +7,7 @@ import sys
 import load_config
 from base import Application, Window
 from backend import get_main_page, YtVideo, driver
-from widgets import search_bar, videos_list, voptions_field
+from widgets import search_bar, videos_list, voptions_field, help_menu
 
 
 class Youtube_tui(Window):
@@ -23,32 +23,33 @@ class Youtube_tui(Window):
         self.title = "Youtube-TUI"
         self.title_x = self.title_y = 0
 
-        # Adding the Video Options Tab to the Window
-        voptions_trans_x = 0
-        voptions_trans_y = 1
-
-        self.voptions_tab = voptions_field.VOptions(self)
-        self.voptions_tab.translate(voptions_trans_y, voptions_trans_x)
-
-        self.voptions_tab.width = 15
-        self.voptions_tab.height = self.height - (voptions_trans_y + 1)
-
-        self.add_tab(self.voptions_tab, False)
 
         # Adding the Search Bar to the Window and select it
-        search_trans_x = (voptions_trans_x + self.voptions_tab.width) + 1
+        search_trans_x = 0
         search_trans_y = 1
 
         self.search_tab = search_bar.Search_bar(self)
         self.search_tab.translate(search_trans_y, search_trans_x)
 
-        self.search_tab.width = self.width - (search_trans_x + 1)
+        self.search_tab.width = self.width - (search_trans_x + 11)
         self.search_tab.height = 2
 
         self.add_tab(self.search_tab, True)
 
+        # Adding the Video Options Tab to the Window
+        voptions_trans_x = 0
+        voptions_trans_y = search_trans_y + (self.search_tab.height + 1)
+
+        self.voptions_tab = voptions_field.VOptions(self)
+        self.voptions_tab.translate(voptions_trans_y, voptions_trans_x)
+
+        self.voptions_tab.width = 15
+        self.voptions_tab.height = curses.LINES - (voptions_trans_y + 1)
+
+        self.add_tab(self.voptions_tab, False)
+
         # Adding the Videos Tab to the Window
-        videos_trans_x = search_trans_x
+        videos_trans_x = voptions_trans_x + (self.voptions_tab.width + 1)
         videos_trans_y = search_trans_y + (self.search_tab.height + 1)
 
         self.videos_tab = videos_list.Videos(self)
@@ -58,6 +59,18 @@ class Youtube_tui(Window):
         self.videos_tab.height = curses.LINES - (videos_trans_y + 1)
 
         self.add_tab(self.videos_tab, False)
+
+        # Adding the Help menu Tab to the window
+        help_trans_x = self.width - 10
+        help_trans_y = search_trans_y
+
+        self.help_tab = help_menu.Help_menu(self)
+        self.help_tab.translate(help_trans_y, help_trans_x)
+
+        self.help_tab.width = self.width - (help_trans_x + 1)
+        self.help_tab.height = self.search_tab.height
+
+        self.add_tab(self.help_tab, False)
 
         self.init_colors()
 
