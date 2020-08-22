@@ -455,7 +455,7 @@ class Application:
         :param window_name: The name of the window
                             if you want to switch to the main window. The window_name should be "main"
         """
-        self.current_window = "main"
+        self.current_window = window_name
 
 
     def get_window(self, window_name: str):
