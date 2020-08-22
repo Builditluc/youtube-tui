@@ -416,7 +416,10 @@ class Application:
         # First, initiating the Screen and defining a variable for the MainWindow of the Application
         self.stdscr = curses.initscr()
         self.stdscr.keypad(True)
-        self.window = None
+
+        self.windows: [[Window, str],] = []
+        self.main_window: Window = None
+        self.current_window: str = "main"
 
         curses.noecho()
         curses.cbreak()
@@ -432,13 +435,47 @@ class Application:
         This function sets the MainWindow of the application
         :param window: The Window
         """
-        self.window = window
+        self.main_window = window
+
+    def add_window(self, window: Window, window_name: str):
+        """
+        This function adds a window to the application and registers it with the
+        given window name. Windows that are added to the application cannot be a main window.
+        :param window: The window
+        :param window_name: The name of the window
+        """
+        self.windows.append([
+            window, window_name
+        ])
+
+    def switch_window(self, window_name: str):
+        """
+        This function changes the current window of the application to a new window using
+        its name
+        :param window_name: The name of the window
+                            if you want to switch to the main window. The window_name should be "main"
+        """
+        self.current_window = "main"
+
+
+    def get_window(self, window_name: str):
+        """
+        This function gets a window using its name
+        :param window_name: The name of the window
+        :return: The actual window class
+        """
+        if window_name == "main":
+            return self.main_window
+
+        for window in self.windows:
+            if window[1] == window_name:
+                return window[0]
 
     def run(self, time_wait=0.015):
         """
-        This function starts the Programm
+        This function starts the program
         :param time_wait: Time to wait between the frame updates
         """
         while True:
-            self.window.window_update()
+            self.get_window(self.current_window).window_update()
             time.sleep(time_wait)

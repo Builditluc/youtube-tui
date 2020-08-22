@@ -118,9 +118,13 @@ class Youtube_tui(Window):
         return load_config.get_binding(name, self.config)
 
 if __name__ == "__main__":
+
     app: Application = Application()
     app.config = load_config.get_shortcuts()
-    app.set_main_window(Youtube_tui(app.stdscr, app))
+
+    youtube_tui = Youtube_tui(app.stdscr, app)
+
+    app.set_main_window(youtube_tui)
 
     try:
         app.run()
