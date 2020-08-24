@@ -37,6 +37,10 @@ class Cell(Tab):
                                      self.translate_x(self.title_pos_x),
                                      self.title, self.get_color(draw_color))
 
+        self.parent.parent.draw_text(self.translate_y(self.title_pos_y + 1),
+                                     self.translate_x(self.title_pos_x),
+                                     self.author, self.get_color("text"))
+
 
 class Videos(Tab):
     def __init__(self, parent):

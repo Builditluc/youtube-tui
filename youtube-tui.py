@@ -28,5 +28,6 @@ if __name__ == "__main__":
             print("\nDriver was closed")
         except:
             print("\nDriver was already closed")"""
+
     app.run()
     sys.exit()
