@@ -43,7 +43,7 @@ class Videos(Tab):
         super(__class__, self).__init__(parent)
 
         self.videos_x = self.videos_y = 1
-        self.cell_width = self.cell_height = 4
+        self.cell_width = self.cell_height = 3
 
         self.title = "Home Page"
 
@@ -53,12 +53,12 @@ class Videos(Tab):
     def update(self):
         # Create/update the videos list
         self.videos_list = []
-        for video in enumerate(self.parent.yt_videos):
+        for video in self.parent.yt_videos:
             cell = Cell(self, video.title, video.creator, video.url)
             self.videos_list.append(cell)
 
         # translate the cells
-        self.cell_width = self.width - 10
+        self.cell_width = self.width - 2
 
         # Calculate the max lines and the bottom line
         self.max_lines = int((self.height // self.cell_height) - 1)
@@ -68,7 +68,7 @@ class Videos(Tab):
         for y, cell in enumerate(selected_cells):
             cell.translate(
                 self.translate_y(((self.cell_height + 1) * y) + 1),
-                self.translate_x(5)
+                self.translate_x(1)
             )
             # Apply the height and width to the current cell
             cell.height = self.cell_height

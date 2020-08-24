@@ -21,8 +21,6 @@ def reset_shortcuts():
         "select_video": "ENTER",
         "scroll_up": "UP",
         "scroll_down": "DOWN",
-        "scroll_left": "LEFT",
-        "scroll_right": "RIGHT",
         "quit": "q"
     }
 

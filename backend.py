@@ -77,8 +77,11 @@ def webscrape(search: bool):
     for i in range(len(titles_array)):
         if i >= 20:
             break
-        return_value.append(
-            YtVideo(titles_array[i - 1], creators_array[i - 1], urls_array[i - 1]))
+        try:
+            return_value.append(
+                YtVideo(titles_array[i - 1], creators_array[i - 1], urls_array[i - 1]))
+        except:
+            break
 
     return return_value
 

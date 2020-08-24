@@ -13,8 +13,6 @@ class Help_menu(Window):
             "Select a Video",
             "Scroll Up",
             "Scroll Down",
-            "Scroll Left",
-            "Scroll Right",
             "Quit the program",
         ]
 
