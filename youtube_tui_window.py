@@ -82,6 +82,7 @@ class Youtube_tui(Window):
     def __del__(self):
         driver.close()
         print("\nDriver was closed")
+        sys.exit()
 
     def init_colors(self):
         curses.start_color()
@@ -101,6 +102,9 @@ class Youtube_tui(Window):
         # quit the program
         if self.key_pressed == self.get_binding("quit"):
             self.__del__()
+
+        if self.key_pressed == ord("?"):
+            self.application.switch_window("help")
 
     def update(self):
         # Calculating the x coordinate of the title,
