@@ -1,9 +1,9 @@
 import string
 import curses
 import curses.ascii
+import threading
 from base import Tab
 from backend import search
-
 
 class Search_bar(Tab):
     def __init__(self, parent):
@@ -25,7 +25,8 @@ class Search_bar(Tab):
 
         # When the user has pressed a ascii key,
         # update the search string
-        if any(chr(key_pressed) in sublist for sublist in [string.ascii_letters, string.digits, string.punctuation]) or key_pressed == curses.ascii.SP:
+        if any(chr(key_pressed) in sublist for sublist in
+               [string.ascii_letters, string.digits, string.punctuation]) or key_pressed == curses.ascii.SP:
             self.search_string += chr(key_pressed)
             return
 
@@ -38,14 +39,16 @@ class Search_bar(Tab):
         # When the user has pressed the return key,
         # search for the current string in youtube
         if key_pressed == self.parent.get_binding("search"):
-            try:
-                self.parent.yt_videos = search(self.search_string)
-                self.title = "Search"
-            except:
-                self.title = "An error occurred"
-            self.parent.videos_tab.scrollable_items = self.parent.yt_videos
-            self.parent.videos_tab.title = "Results for '{}'".format(self.search_string)
-            self.search_string = ""
+            thread = threading.Thread(target=self.start_search)
+            thread.start()
+            self.title = "Searching..."
+
+    def start_search(self):
+        self.parent.yt_videos = search(self.search_string)
+
+        self.title = "Search"
+        self.parent.videos_tab.scrollable_items = self.parent.yt_videos
+        self.parent.videos_tab.title = "Results for '{}'".format(self.search_string)
 
     def update(self):
         # Calculate new cursor positions for the tab

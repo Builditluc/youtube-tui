@@ -20,7 +20,6 @@ class Youtube_tui(Window):
         self.title = "Youtube-TUI"
         self.title_x = self.title_y = 0
 
-
         # Adding the Search Bar to the Window and select it
         search_trans_x = 0
         search_trans_y = 1
@@ -68,14 +67,6 @@ class Youtube_tui(Window):
         self.help_tab.height = self.search_tab.height
 
         self.add_tab(self.help_tab, False)
-
-        self.help_message = message_box.Message_Box(self)
-        self.help_message.translate(0, 0)
-
-        self.help_message.width = self.width - 1
-        self.help_message.height = curses.LINES - 1
-
-        self.help_number = self.add_tab(self.help_message, False)
 
         self.init_colors()
 
