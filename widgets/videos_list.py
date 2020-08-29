@@ -84,6 +84,10 @@ class Videos(Tab):
         self.scrollable_items = self.videos_list
 
     def late_update(self):
+        if not self.videos_list:
+            self.draw_text(int(self.height//2), int(self.width//2), "Loading...", self.get_color("text"))
+            return
+
         # Call the late update function of the cells
         selected_cells = self.videos_list[self.top_line:self.top_line + self.max_lines]
         for y, cell in enumerate(selected_cells):

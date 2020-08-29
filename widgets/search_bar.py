@@ -3,7 +3,7 @@ import curses
 import curses.ascii
 import threading
 from base import Tab
-from backend import search
+from backend import search, get_main_page
 
 class Search_bar(Tab):
     def __init__(self, parent):
@@ -48,6 +48,11 @@ class Search_bar(Tab):
 
         self.title = "Search"
         self.parent.videos_tab.scrollable_items = self.parent.yt_videos
+
+        if self.search_string == "":
+            self.parent.videos_tab.title = "Home Page"
+            return
+
         self.parent.videos_tab.title = "Results for '{}'".format(self.search_string)
 
     def update(self):

@@ -2,6 +2,7 @@ import curses
 import curses.ascii
 import sys
 import load_config
+import threading
 from base import Window
 from backend import get_main_page, YtVideo, driver
 from widgets import search_bar, videos_list, voptions_field, help_menu, message_box
@@ -11,7 +12,7 @@ class Youtube_tui(Window):
     def __init__(self, stdscr, application):
         super(__class__, self).__init__(stdscr, application)
 
-        self.yt_videos: [YtVideo] = get_main_page()
+        self.yt_videos: [YtVideo] = []
 
         # Storing the config
         self.config = application.config
@@ -31,6 +32,9 @@ class Youtube_tui(Window):
         self.search_tab.height = 2
 
         self.add_tab(self.search_tab, True)
+
+        thread = threading.Thread(target=self.search_tab.start_search)
+        thread.start()
 
         # Adding the Video Options Tab to the Window
         voptions_trans_x = 0
