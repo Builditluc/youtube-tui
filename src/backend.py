@@ -1,30 +1,37 @@
+
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-from selenium.webdriver.chrome.options import Options
+#from selenium.webdriver.chrome.options import Options
 
 import urllib.parse
 import time
 import os
 
 
-options = Options()
-if os.environ.get("DEBUG_YOUTUBE_TUI") != "True":
-    options.headless = True
+#if os.environ.get("DEBUG_YOUTUBE_TUI") != "True":
+#    options.headless = True
 try:
-    from selenium.webdriver.firefox.options import Options
+    options = webdriver.firefox.options.Options()
+    options.headless = True
     driver = webdriver.Firefox(options=options)
-except:
+except FileNotFoundError:
     try:
-        from selenium.webdriver.chrome.options import Options
+        options = webdriver.chrome.options.Options()
+        options.headless = True
         driver = webdriver.Chrome(options=options)
-    except:
+
+    except FileNotFoundError:
         try:
             driver = webdriver.Safari()
-        except:
-            from selenium.webdriver.ie.options import Options
-            driver= webdriver.Ie(options=options)
+        except FileNotFoundError:
+            try:
+                options = webdriver.ie.options.Options()
+                options.headless = True
+                driver= webdriver.Ie(options=options)
+            except FileNotFoundError:
+                print("No usable browser found.")
 class YtVideo:
     def __init__(self, title_arg, creator_arg, url_arg):
         self.title = title_arg
