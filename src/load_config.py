@@ -3,10 +3,10 @@ import curses
 import os
 
 # Directory of the python file
-path = os.path.dirname(__file__)
+path = os.path.expanduser('~')
 
 # Path to the config file
-config_path = os.path.join(path, "config.ini")
+config_path = os.path.join(path, ".youtube-tui.config")
 
 
 def reset_shortcuts():
