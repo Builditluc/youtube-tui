@@ -1,0 +1,32 @@
+#+TITLE: Readme
+* youtube-tui
+Every wanted to browse youtube in the terminal? We go you covered.
+
+A beautiful terminal youtube browser, written in python, with ncurses.
+
+Implemented with a plugin similar system, which is easy and extensible.
+
+* Usage
+
+#+begin_src shell
+ youtube-tui
+#+end_src
+
+** Moving the focus
+You can use the tab key, to switch focus from the search bar, to the video area.
+
+To move between videos, you can use the arrow keys.
+
+** Playing a video
+Once you found a video, you can play it by hitting the space key. A small pop-up will appear, which will let you choose/search from the installed runners (Basically the plugins of youtube-tui, which open the video you selected.)
+
+
+* Installation
+** Install via pip (soon to be released)
+** Install via git cloning
+Clone the repo and run the main file
+#+begin_src shell
+git clone https://github.com/builditluc/youtube-tui.git
+python src/youtube-tui.py
+#+end_src
+
