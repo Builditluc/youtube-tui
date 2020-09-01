@@ -7,7 +7,10 @@ path = os.path.expanduser('~')
 
 # Path to the config file
 config_path = os.path.join(path, ".youtube-tui.config")
-
+if not os.path.exists(config_path):
+    default_config = open(os.path.dirname(os.path.realpath(__file__)) + "/default-config", "r").read()
+    #print(default_config)
+    open(config_path, "w").write(default_config)
 
 def reset_shortcuts():
     """
