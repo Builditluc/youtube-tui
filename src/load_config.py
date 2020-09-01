@@ -9,48 +9,30 @@ path = os.path.expanduser('~')
 config_path = os.path.join(path, ".youtube-tui.config")
 default_config = open(os.path.dirname(os.path.realpath(__file__)) + "/default-config", "r").read()
 if not os.path.exists(config_path):
-    #print(default_config)
     open(config_path, "w").write(default_config)
 
-def reset_shortcuts():
+def reset_bindings():
     """
-    Resets the shortcuts to the default one
+    Resets the key bindings to the default one
     """
-    #:return: A list of dictionary's containing the shortcuts
-
-    #config = configparser.ConfigParser()
-    #config["shortcuts"] = {
-    #    "switch_tabs": "TAB",
-    #    "search": "ENTER",
-    #    "select_video": "ENTER",
-    #    "scroll_up": "UP",
-    #    "scroll_down": "DOWN",
-    #    "quit": "q"
-    #}
-
-    #config_file = open(config_path, "w")
-    #config.write(config_file)
-
-    #return config
-
     open(config_path, "w").write(default_config)
 
-def get_shortcuts():
+def get_bindings():
     """
-    Reads the config file and returns the shortcuts
-    :return: A dictionary with all of the shortcuts
+    Reads the config file and returns the bindings
+    :return: A dictionary with all of the bindings
     """
     config = configparser.ConfigParser()
     config.read(config_path)
 
-    return config["shortcuts"]
+    return config["bindings"]
 
 
-def convert_shortcut(shortcut: str):
+def convert_binding(binding: str):
     """
-    Converts the shortcut to a key number that can be used with curses
-    :param shortcut: The shortcut in a string
-    :return: An integer containing the key number. If the shortcut is invalid, returns -1
+    Converts the binding to a key number that can be used with curses
+    :param binding: The key binding in a single char string
+    :return: An integer containing the key number. If the binding is invalid, returns -1
     """
     special_keys = {
         "TAB": 9,
@@ -61,17 +43,17 @@ def convert_shortcut(shortcut: str):
         "RIGHT": 261
     }
 
-    # If the shortcut is a special key,
+    # If the binding is a special key,
     # convert it with the dictionary of special keys
-    if shortcut in special_keys.keys():
-        return special_keys.get(shortcut)
+    if binding in special_keys.keys():
+        return special_keys.get(binding)
 
-    # If the shortcut is only one character long,
-    # convert the shortcut with the ord method
-    if len(shortcut) == 1:
-        return ord(shortcut)
+    # If the binding is only one character long,
+    # convert the binding with the ord method
+    if len(binding) == 1:
+        return ord(binding)
 
-    # If the shortcut is invalid,
+    # If the binding is invalid,
     # return -1
     return -1
 
@@ -85,4 +67,4 @@ def get_binding(name:str, config:dict):
     """
     shortcut = config.get(name, None)
     if shortcut:
-        return convert_shortcut(shortcut)
+        return convert_binding(shortcut)
