@@ -7,31 +7,33 @@ path = os.path.expanduser('~')
 
 # Path to the config file
 config_path = os.path.join(path, ".youtube-tui.config")
+default_config = open(os.path.dirname(os.path.realpath(__file__)) + "/default-config", "r").read()
 if not os.path.exists(config_path):
-    default_config = open(os.path.dirname(os.path.realpath(__file__)) + "/default-config", "r").read()
     #print(default_config)
     open(config_path, "w").write(default_config)
 
 def reset_shortcuts():
     """
     Resets the shortcuts to the default one
-    :return: A list of dictionary's containing the shortcuts
     """
-    config = configparser.ConfigParser()
-    config["shortcuts"] = {
-        "switch_tabs": "TAB",
-        "search": "ENTER",
-        "select_video": "ENTER",
-        "scroll_up": "UP",
-        "scroll_down": "DOWN",
-        "quit": "q"
-    }
+    #:return: A list of dictionary's containing the shortcuts
 
-    config_file = open(config_path, "w")
-    config.write(config_file)
+    #config = configparser.ConfigParser()
+    #config["shortcuts"] = {
+    #    "switch_tabs": "TAB",
+    #    "search": "ENTER",
+    #    "select_video": "ENTER",
+    #    "scroll_up": "UP",
+    #    "scroll_down": "DOWN",
+    #    "quit": "q"
+    #}
 
-    return config
+    #config_file = open(config_path, "w")
+    #config.write(config_file)
 
+    #return config
+
+    open(config_path, "w").write(default_config)
 
 def get_shortcuts():
     """
