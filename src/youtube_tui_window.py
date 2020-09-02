@@ -1,8 +1,8 @@
 import curses
 import curses.ascii
 import sys
-import load_config
 import threading
+import load_config
 from base import Window
 from backend import get_main_page, YtVideo, driver
 from widgets import search_bar, videos_list, voptions_field, help_menu, message_box

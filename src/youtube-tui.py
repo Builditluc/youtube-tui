@@ -4,14 +4,14 @@ The main file for the youtube-tui
 import sys
 from base import Application
 from backend import driver
-from load_config import get_shortcuts
+from load_config import get_bindings
 from youtube_tui_window import Youtube_tui
 from help_menu import Help_menu
 
 if __name__ == "__main__":
 
     app: Application = Application()
-    app.config = get_shortcuts()
+    app.config = get_bindings()
 
     youtube_tui = Youtube_tui(app.stdscr, app)
     help_menu = Help_menu(app.stdscr, app)

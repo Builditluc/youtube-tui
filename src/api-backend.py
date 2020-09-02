@@ -2,7 +2,7 @@
 import os
 import requests
 import backend
-import json 
+import json
 
 def search(query):
 
