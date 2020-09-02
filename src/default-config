@@ -1,7 +1,19 @@
 [bindings]
+; here you can change the default keybindings.
 switch_tabs = TAB
 search = ENTER
 select_video = ENTER
 scroll_up = UP
 scroll_down = DOWN
 quit = q
+
+[data]
+; here you can change the source, where the data is being gotten from, either from the official youtube api, or it being webscraped, which is much slower, but doesn't have to live with youtube rate limiting, or the limit per day.
+;source = api
+source = scrape
+
+
+[api]
+; if you want to use your own api key, instead of using the one we provide, you can specify it here
+; This can be useful, when you're are experiencing rate limiting, or the limit reached.
+;api-key =

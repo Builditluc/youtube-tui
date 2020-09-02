@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 import os
 import requests
-import backend
 import json 
+import video_class
 
 def search(query):
 
@@ -22,7 +22,7 @@ def search(query):
     for i in response['items']:
         print(i)
         try:
-            payload.append(backend.YtVideo(i['snippet']['title'], i['snippet']['channelTitle'], "https://www.youtube.com/watch?v=" + i['id']['videoId'] ))
+            payload.append(video_class.YtVideo(i['snippet']['title'], i['snippet']['channelTitle'], "https://www.youtube.com/watch?v=" + i['id']['videoId'] ))
         except KeyError:
             print("Key error, probably not a video")
 
@@ -46,7 +46,7 @@ def main_page(region):
     for i in response['items']:
         print(i)
         try:
-            payload.append(backend.YtVideo(i['snippet']['title'], i['snippet']['channelTitle'], "https://www.youtube.com/watch?v=" + i['id']['videoId'] ))
+            payload.append(video_class.YtVideo(i['snippet']['title'], i['snippet']['channelTitle'], "https://www.youtube.com/watch?v=" + i['id']['videoId'] ))
         except KeyError:
             print("Key error, probably not a video")
 

@@ -6,7 +6,7 @@ import selenium
 import urllib.parse
 import time
 import os
-
+from video_class import YtVideo
 
 #if os.environ.get("DEBUG_YOUTUBE_TUI") != "True":
 #    options.headless = True
@@ -30,11 +30,6 @@ except selenium.common.exceptions.WebDriverException:
                 driver= webdriver.Ie(options=options)
             except selenium.common.exceptions.WebDriverException:
                 print("No usable browser found.")
-class YtVideo:
-    def __init__(self, title_arg, creator_arg, url_arg):
-        self.title = title_arg
-        self.creator = creator_arg
-        self.url = url_arg
 
 
 def request(url):
@@ -114,3 +109,4 @@ def search(text):
         return webscrape(True)
     else:
         return "error"
+#print(get_main_page()[2].title)

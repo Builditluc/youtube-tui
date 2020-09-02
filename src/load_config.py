@@ -68,3 +68,16 @@ def get_binding(name:str, config:dict):
     shortcut = config.get(name, None)
     if shortcut:
         return convert_binding(shortcut)
+
+def get_data_source():
+    config = configparser.ConfigParser()
+    config.read(config_path)
+    return config['data']['source']
+
+#get_data_source()
+
+def get_api_key():
+    config = configparser.ConfigParser()
+    config.read(config_path)
+    return config['api']['api-key'] 
+#get_api_key()
