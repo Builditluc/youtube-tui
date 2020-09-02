@@ -30,3 +30,5 @@ git clone https://github.com/builditluc/youtube-tui.git
 python src/youtube-tui.py
 #+end_src
 
+* Configuration
+Upon first run, a config file is created in your home direcotry, called `.youtube-tui.config`, where you can change some things, like keybinds.

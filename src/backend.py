@@ -1,10 +1,8 @@
-
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-#from selenium.webdriver.chrome.options import Options
-
+import selenium
 import urllib.parse
 import time
 import os
@@ -16,21 +14,21 @@ try:
     options = webdriver.firefox.options.Options()
     options.headless = True
     driver = webdriver.Firefox(options=options)
-except FileNotFoundError:
+except selenium.common.exceptions.WebDriverException:
     try:
         options = webdriver.chrome.options.Options()
         options.headless = True
         driver = webdriver.Chrome(options=options)
 
-    except FileNotFoundError:
+    except selenium.common.exceptions.WebDriverException:
         try:
             driver = webdriver.Safari()
-        except FileNotFoundError:
+        except:
             try:
                 options = webdriver.ie.options.Options()
                 options.headless = True
                 driver= webdriver.Ie(options=options)
-            except FileNotFoundError:
+            except selenium.common.exceptions.WebDriverException:
                 print("No usable browser found.")
 class YtVideo:
     def __init__(self, title_arg, creator_arg, url_arg):
