@@ -1,8 +1,7 @@
-[shortcuts]
+[bindings]
 switch_tabs = TAB
 search = ENTER
 select_video = ENTER
 scroll_up = UP
 scroll_down = DOWN
 quit = q
-
