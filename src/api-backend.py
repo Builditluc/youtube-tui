@@ -14,7 +14,7 @@ def search(query):
     ('part', 'snippet'),
     ('maxResults', '25'),
     ('q', query),
-    ('key', 'AIzaSyCB21eI0-N35gRhgn_xvgLtVadBrtr-aQA'),
+    ('key', os.environ.get('YOUTUBE_KEY')),
     )
 
     response = requests.get('https://www.googleapis.com/youtube/v3/search', headers=headers, params=params).json()
@@ -38,15 +38,16 @@ def main_page(region):
     ('part', 'snippet,contentDetails,statistics'),
     ('chart', 'mostPopular'),
     ('regionCode', region),
-    ('key', 'AIzaSyCB21eI0-N35gRhgn_xvgLtVadBrtr-aQA'),
+    ('key', os.environ.get('YOUTUBE_KEY')),
     )
 
     response = requests.get('https://www.googleapis.com/youtube/v3/videos', headers=headers, params=params).json()
     payload = []
     for i in response['items']:
         print(i)
+        print("\n")
         try:
-            payload.append(video_class.YtVideo(i['snippet']['title'], i['snippet']['channelTitle'], "https://www.youtube.com/watch?v=" + i['id']['videoId'] ))
+            payload.append(video_class.YtVideo(i['snippet']['title'], i['snippet']['channelTitle'], "https://www.youtube.com/watch?v=" + i['id'] ))
         except KeyError:
             print("Key error, probably not a video")
 
