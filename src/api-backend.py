@@ -29,7 +29,7 @@ def search(query):
     return payload 
 
 def main_page(region):
-    print("MAIN PAGE: \n\n")
+    #print("MAIN PAGE: \n\n")
     headers = {
     'Accept': 'application/json',
     }
@@ -53,5 +53,5 @@ def main_page(region):
 
     return payload 
 
-print(len(search("minecraft")))
-print(main_page("US"))
+#print(len(search("minecraft")))
+#print(main_page("US"))
