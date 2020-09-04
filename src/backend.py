@@ -7,7 +7,7 @@ import urllib.parse
 import time
 import os
 from video_class import YtVideo
-
+driver = ""
 #if os.environ.get("DEBUG_YOUTUBE_TUI") != "True":
 #    options.headless = True
 try:
@@ -91,7 +91,7 @@ def get_main_page():
     request('https://www.youtube.com/')
 
     return webscrape(False)
-
+    #driver.
 
 def search(text):
     request("https://www.youtube.com/results?search_query=" +
@@ -109,4 +109,6 @@ def search(text):
         return webscrape(True)
     else:
         return "error"
-#print(get_main_page()[2].title)
+print(get_main_page()[2].title)
+def close_driver():
+    driver.quit()

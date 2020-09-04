@@ -4,7 +4,7 @@ import sys
 import threading
 import load_config
 from base import Window
-from backend import get_main_page, YtVideo, driver
+from backend import get_main_page, YtVideo, close_driver
 from widgets import search_bar, videos_list, voptions_field, help_menu, message_box
 
 
@@ -75,7 +75,7 @@ class Youtube_tui(Window):
         self.init_colors()
 
     def __del__(self):
-        driver.close()
+        close_driver()
         print("\nDriver was closed")
         sys.exit()
 
