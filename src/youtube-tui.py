@@ -6,9 +6,17 @@ class Search_widget(npyscreen.BoxTitle):
     _contained_widget = npyscreen.Textfield
 
 
-class Video_list_widget(npyscreen.BoxTitle):
-    _contained_widget = npyscreen.MultiLine
+class Video_multiline_widget(npyscreen.MultiLine):
+    def display_value(self, vl):
+        return "T"
 
+
+class Video_list_widget(npyscreen.BoxTitle):
+    _contained_widget = Video_multiline_widget
+
+    def when_value_edited(self):
+        if self.value != None:
+            self.parent.select_video(self.values[self.value])
 
 class Youtube_form(npyscreen.FormBaseNew):
     def create(self):
@@ -16,18 +24,15 @@ class Youtube_form(npyscreen.FormBaseNew):
         self.cycle_widgets = True
         self.add_handlers({"^Q": lambda _input: exit(0)})
 
-        y, x = self.useable_space()
-
-        search_bar: Search_widget = self.add(Search_widget, name="Search", rely=1, max_height=3)
+        search_bar: Search_widget = self.add(Search_widget, w_id="search_bar", name="Search", rely=1, max_height=3)
         search_bar.entry_widget.handlers.update({curses.ascii.NL: self.start_search})
 
-        video_list: Video_list_widget = self.add(Video_list_widget, name="Home Page", rely=5)
-        video_list.entry_widget.handlers.update({curses.ascii.NL: self.select_video})
+        self.add(Video_list_widget, w_id="video_list", name="Home Page", rely=5, values=["Test1", "Test2", "Test3"])
 
     def afterEditing(self):
         self.parentApp.setNextForm(None)
 
-    def select_video(self, _input):
+    def select_video(self, video:str):
         pass
 
     def start_search(self, _input):
