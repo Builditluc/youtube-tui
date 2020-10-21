@@ -1,5 +1,6 @@
 import curses.ascii
 import npyscreen
+from video_class import YtVideo
 
 
 class Search_widget(npyscreen.BoxTitle):
@@ -7,8 +8,8 @@ class Search_widget(npyscreen.BoxTitle):
 
 
 class Video_multiline_widget(npyscreen.MultiLine):
-    def display_value(self, vl):
-        return "T"
+    def display_value(self, vl:YtVideo):
+        return "{} | {}".format(vl.creator, vl.title)
 
 
 class Video_list_widget(npyscreen.BoxTitle):
@@ -17,6 +18,7 @@ class Video_list_widget(npyscreen.BoxTitle):
     def when_value_edited(self):
         if self.value != None:
             self.parent.select_video(self.values[self.value])
+
 
 class Youtube_form(npyscreen.FormBaseNew):
     def create(self):
@@ -27,7 +29,10 @@ class Youtube_form(npyscreen.FormBaseNew):
         search_bar: Search_widget = self.add(Search_widget, w_id="search_bar", name="Search", rely=1, max_height=3)
         search_bar.entry_widget.handlers.update({curses.ascii.NL: self.start_search})
 
-        self.add(Video_list_widget, w_id="video_list", name="Home Page", rely=5, values=["Test1", "Test2", "Test3"])
+        self.add(Video_list_widget, w_id="video_list", name="Home Page", rely=5, values=[
+            YtVideo("Programming Tutorial", "TheCherno", "https://youtube.com/watch="),
+            YtVideo("The new MacBook Pro is awesome", "MKBHD", "https://youtube.com/watch=")
+        ])
 
     def afterEditing(self):
         self.parentApp.setNextForm(None)
@@ -36,7 +41,12 @@ class Youtube_form(npyscreen.FormBaseNew):
         pass
 
     def start_search(self, _input):
-        pass
+        search_widget: Search_widget = self.get_widget("search_bar")
+
+        video_widget: Video_list_widget = self.get_widget("video_list")
+        video_widget.name = "Showing Results for '{}'".format(search_widget.value)
+
+        video_widget.display()
 
 
 class Application(npyscreen.NPSAppManaged):
